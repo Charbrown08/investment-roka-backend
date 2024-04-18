@@ -1,9 +1,34 @@
 service: investment-roka-backend
 frameworkVersion: '3'
+app: investment-roka-backend
 
 provider:
   name: aws
   runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'eu-west-1'}
+  logRetentionInDays: 7
+  memorySize: 128
+  architecture: arm64
+  environment:
+    BUCKET_NAME: ses-bucket-${self:provider.stage}
+    # TABLE_USER: user-table-${self:provider.stage}
+    # ROKA_TABLE_NAME: roka-table-${self:provider.stage}
+    # ROKA_TABLE_GSI1: GSI1
+    # ROKA_TABLE_GSI2: GSI2
+    # ROKA_TABLE_GSI3: GSI3
+  tags:
+    application: ${self:app}
+    stage: ${self:provider.stage}
+
+
+custom:
+  ApiUrl: ${self:provider.stage}/v1
+
+plugins:
+  - serverless-prune-plugin
+  - serverless-plugin-custom-roles
+  - serverless-offline
 
 functions:
   api:
@@ -12,3 +37,11 @@ functions:
       - httpApi:
           path: /
           method: get
+
+
+
+package:
+  individually: true
+  patterns:
+    - "!node_modules/**"
+

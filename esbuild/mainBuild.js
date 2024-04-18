@@ -1,7 +1,7 @@
 const esbuild = require('esbuild')
 const { findFiles } = require('./filterBaseLambdas')
 
-const baseDirectories = ['src/functions']
+const baseDirectories = ['src/handlers']
 const entryPoints = findFiles(baseDirectories, '.js')
 
 const baseOptions = {
