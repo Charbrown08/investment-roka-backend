@@ -11,32 +11,30 @@ provider:
   memorySize: 128
   architecture: arm64
   environment:
-    BUCKET_NAME: ses-bucket-${self:provider.stage}
-    # TABLE_USER: user-table-${self:provider.stage}
-    # ROKA_TABLE_NAME: roka-table-${self:provider.stage}
-    # ROKA_TABLE_GSI1: GSI1
-    # ROKA_TABLE_GSI2: GSI2
-    # ROKA_TABLE_GSI3: GSI3
-  tags:
-    application: ${self:app}
-    stage: ${self:provider.stage}
+    ROKA_TABLE_NAME: table-${self:app}-${self:provider.stage}
+    ROKA_SECONDARY_INDEX_GSI1: GSI1
+    ROKA_SECONDARY_INDEX_GSI2: GSI2
+    ROKA_SECONDARY_INDEX_GSI3: GSI3
+
+
 
 
 custom:
   ApiUrl: ${self:provider.stage}/v1
+  ServiceName: ${self:app}
 
 plugins:
   - serverless-prune-plugin
   - serverless-plugin-custom-roles
   - serverless-offline
 
+resources:
+  - ${file(./config/resources/table.yml)}
+
 functions:
-  api:
-    handler: index.handler
-    events:
-      - httpApi:
-          path: /
-          method: get
+  - ${file(./config/lambdas/crud.yml)}
+
+
 
 
 
