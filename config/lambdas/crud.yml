@@ -1,0 +1,79 @@
+createUser:
+  handler: dist/handlers/crud/createUser.handler
+  name: ${self:custom.ServiceName}-createUser
+  description: Create a user
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:PutItem"
+        - "dynamodb:GetItem"
+      Resource:
+        Fn::Sub: "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${self:provider.environment.ROKA_TABLE_NAME}"
+  events:
+    - http:
+        path: ${self:custom.ServiceName}/users/createUser
+        method: post
+        cors: true
+  package:
+    patterns:
+      - dist/handlers/crud/createUser.js
+
+
+getUser:
+  handler: dist/handlers/crud/getUser.handler
+  name: ${self:custom.ServiceName}-getUser
+  description: get a user
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+      Resource:
+        Fn::Sub: "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${self:provider.environment.ROKA_TABLE_NAME}"
+  events:
+    - http:
+        path: ${self:custom.ServiceName}/users/getUser/{id}
+        method: get
+        cors: true
+  package:
+    patterns:
+      - dist/handlers/crud/getUser.js
+
+
+updateUser:
+  handler: dist/handlers/crud/updateUser.handler
+  name: ${self:custom.ServiceName}-updateUser
+  description: update a user
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+      Resource:
+        Fn::Sub: "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${self:provider.environment.ROKA_TABLE_NAME}"
+  events:
+    - http:
+        path: ${self:custom.ServiceName}/users/updateUser
+        method: put
+        cors: true
+  package:
+    patterns:
+      - dist/handlers/crud/updateUser.js
+
+
+deleteUser:
+  handler: dist/handlers/crud/deleteUser.handler
+  name: ${self:custom.ServiceName}-deleteUser
+  description: Delete a user
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+      Resource:
+        Fn::Sub: "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${self:provider.environment.ROKA_TABLE_NAME}"
+  events:
+    - http:
+        path: ${self:custom.ServiceName}/users/deleteUser/{id}
+        method: delete
+        cors: true
+  package:
+    patterns:
+      - dist/handlers/crud/deleteUser.js

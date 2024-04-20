@@ -21,7 +21,19 @@ const media = (data, headers) => ({
   }
 })
 
-const ok = (body) => ({
+const ok = (good) => ({
+  statusCode: 200,
+  body: JSON.stringify({
+    type: 'urn:success:ok',
+    title: 'OK',
+    detail: good,
+    status: 200
+  }),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+const success = (body) => ({
   statusCode: 200,
   body: JSON.stringify(body),
   headers: {
@@ -144,6 +156,7 @@ const unprocessable =
 export default {
   serverError,
   ok,
+  success,
   badRequest,
   generic,
   notFound,
