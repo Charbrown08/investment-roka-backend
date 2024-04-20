@@ -15,7 +15,7 @@ const putItemCommand = async (
   profession,
   companyName,
   phoneNumbers,
-  HomeAddress,
+  homeAddress,
   workAddress,
   guarantorName,
   guarantorPhone,
@@ -24,27 +24,47 @@ const putItemCommand = async (
   loanDate,
   interestRate
 ) => {
+  let decimalInterestRate = +(interestRate / 100).toFixed(2)
+  let interestPerMount = +(decimalInterestRate * loanAmount).toFixed(2)
+  let systemEntryDate = new Date().toLocaleDateString()
+
   const input = {
     TableName: nameUserTable,
     Item: marshall(
       {
         PK: `user#${id}`,
         SK: `user#${id}`,
-        GSI1PK: `user#${email}`,
-        GSI1SK: `user#${email}`,
+        GSI1PK: `user#${surname}`,
+        GSI1SK: `user#${surname}`,
         GSI2PK: `user#${lastName}`,
         GSI2SK: `user#${lastName}`,
-        GSI3PK: `user#${numbersPhone}`,
-        GSI3SK: `user#${numbersPhone}`,
+        GSI3PK: `user#${payday}`,
+        GSI3SK: `user#${payday}`,
         id: id,
         name: name,
-        lastName: lastName,
-        email: email,
-        numbersPhone: numbersPhone,
-        address: address,
+        surname: surname,
+        age: age,
         city: city,
-        profesion: profesion,
-        age: age
+        email: email,
+        profession: profession,
+        companyName: companyName,
+        phoneNumbers: phoneNumbers,
+        homeAddress: homeAddress,
+        workAddress: workAddress,
+        guarantorName: guarantorName,
+        guarantorPhone: guarantorPhone,
+        guarantorAddress: guarantorAddress,
+        loanAmount: loanAmount,
+        loanDate: loanDate,
+        interestRate: decimalInterestRate,
+        //  automatic
+        interest: interestPerMount,
+        status: 'Active',
+        systemEntryDate: systemEntryDate,
+        payday: '19/05/2024',
+        amountWithInterest: '1100.000',
+        daysOverdue: '3',
+        interestPaid: 'true/false'
       },
       {
         removeUndefinedValues: true
