@@ -31,8 +31,10 @@ plugins:
 resources:
   - ${file(./config/resources/table.yml)}
 
+
 functions:
   - ${file(./config/lambdas/crud.yml)}
+  - ${file(./config/lambdas/email.yml)}
 
 
 
