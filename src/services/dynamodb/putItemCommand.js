@@ -2,6 +2,8 @@ import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
 import { marshall } from '@aws-sdk/util-dynamodb'
 import configClient from '@/lib/utils/configClient'
 const client = new DynamoDBClient(configClient)
+import moment from 'moment'
+moment().format()
 
 const nameUserTable = process.env.ROKA_TABLE_NAME
 
