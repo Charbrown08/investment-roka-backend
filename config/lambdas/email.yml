@@ -1,0 +1,56 @@
+sendEmail:
+  handler: dist/handlers/ses/sendEmail.handler
+  name: ${self:custom.ServiceName}-sendEmail
+  description: Send email to users
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:SendEmail"
+      Resource: '*'
+
+  events:
+    - http:
+        path: ${self:custom.ServiceName}/email/sendEmail
+        method: post
+        cors: true
+  package:
+    patterns:
+      - dist/handlers/ses/sendEmail.js
+
+sendRawEmail:
+  handler: dist/handlers/ses/sendRawEmail.handler
+  name: ${self:custom.ServiceName}-sendRawEmail
+  description: Send Raw email to users
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:sendRawEmail"
+      Resource: '*'
+
+  events:
+    - http:
+        path: ${self:custom.ServiceName}/email/sendRawEmail
+        method: post
+        cors: true
+  package:
+    patterns:
+      - dist/handlers/ses/sendRawEmail.js
+
+sendRawEmailNodemailer:
+  handler: dist/handlers/ses/sendRawEmailNodemailer.handler
+  name: ${self:custom.ServiceName}-sendRawEmailNodemailer
+  description: Send Raw email to users
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ses:sendRawEmail"
+      Resource: '*'
+
+  events:
+    - http:
+        path: ${self:custom.ServiceName}/email/sendRawEmailNodemailer
+        method: post
+        cors: true
+  package:
+    patterns:
+      - dist/handlers/ses/sendRawEmailNodemailer.js
