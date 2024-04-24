@@ -45,7 +45,14 @@ sendRawEmailNodemailer:
       Action:
         - "ses:sendRawEmail"
       Resource: '*'
-
+    - Effect: "Allow"
+      Action:
+        - "s3:getObject"
+        - "s3:putObject"
+        - "s3:getObjectVersion"
+        - "s3:getObjectAcl"
+      Resource:
+         Fn::Sub: 'arn:aws:s3:::investment-roka-backend-dev/*'
   events:
     - http:
         path: ${self:custom.ServiceName}/email/sendRawEmailNodemailer
@@ -54,3 +61,31 @@ sendRawEmailNodemailer:
   package:
     patterns:
       - dist/handlers/ses/sendRawEmailNodemailer.js
+
+receptionEmail:
+  handler: dist/handlers/ses/receptionEmail.handler
+  name: ${self:custom.ServiceName}-receptionEmail
+  description: Recepcion email to users
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - s3:Getobject
+        - s3:PutObject
+        - s3:DeleteObject
+      Resource:
+        Fn::Sub: 'arn:aws:s3:::${self:provider.environment.ROKA_BUCKET_NAME}/mails/*'
+    - Effect: 'Allow'
+      Action:
+        - s3:PutObject
+      Resource:
+        Fn::Sub: 'arn:aws:s3:::${self:provider.environment.ROKA_BUCKET_NAME}/parsedMails/*'
+  events:
+    - s3:
+        bucket: ${self:provider.environment.ROKA_BUCKET_NAME}
+        event: s3:ObjectCreated:*
+        rules:
+          - prefix: mails/
+        existing: true
+  package:
+    patterns:
+      - dist/handlers/ses/receptionEmail.js

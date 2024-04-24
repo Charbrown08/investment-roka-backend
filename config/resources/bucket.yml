@@ -1,0 +1,80 @@
+Resources:
+  RokaBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: ${self:provider.environment.ROKA_BUCKET_NAME}
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: ObjectWriter
+      LifecycleConfiguration:
+        Rules:
+          - Id: DeleteOldMails
+            Status: Enabled
+            ExpirationInDays: 3
+            Prefix: mails/
+          - Id: DeleteParsedmails
+            Status: Enabled
+            ExpirationInDays: 4
+            Prefix: parsedMails/
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+      CorsConfiguration:
+        CorsRules:
+          - AllowedMethods:
+              - GET
+              - PUT
+              - POST
+              - HEAD
+            AllowedHeaders:
+              - '*'
+            AllowedOrigins:
+              - '*'
+            Id: CORSRule1
+
+
+  RokaBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref RokaBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: AllowSESPuts
+            Effect: Allow
+            Principal:
+              Service: ses.amazonaws.com
+            Action:
+              - 's3:GetObject'
+              - 's3:PutObject'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref RokaBucket
+                - /*
+            Condition:
+              StringEquals:
+                aws:Referer: !Ref AWS::AccountId
+          - Sid: AllObjectPublic
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref RokaBucket
+                - /*
+
+
+
+
+
+
+
+
+
+
+
+

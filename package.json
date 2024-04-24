@@ -10,7 +10,7 @@
     "@aws-lambda-powertools/logger": "^1.4.0",
     "@aws-lambda-powertools/metrics": "^1.18.1",
     "@aws-sdk/client-dynamodb": "^3.556.0",
-    "@aws-sdk/client-s3": "^3.400.0",
+    "@aws-sdk/client-s3": "^3.556.0",
     "@aws-sdk/client-ses": "^3.554.0",
     "@aws-sdk/client-ssm": "^3.554.0",
     "@aws-sdk/util-dynamodb": "^3.556.0",
@@ -56,7 +56,7 @@
     "debug:offline": "npm run build:offline && cross-env SLS_DEBUG=* node --inspect node_modules/serverless/bin/serverless offline -t",
     "dev": "npm run build:offline && sls offline",
     "deploy": "npm run build:main && sls deploy --verbose --force",
-    "deployf": "npm run build:main && sls deploy function -f sendEmail --verbose",
+    "deployf": "npm run build:main && sls deploy function -f receptionEmail --verbose",
     "deployf1": "npm run build:main && sls deploy function -f sendNotificationHook --verbose"
   },
   "keywords": [

@@ -2,14 +2,15 @@ import { MetricUnits } from '@aws-lambda-powertools/metrics'
 import { logger, metrics } from '@/lib/utils/powertools'
 import middyAdapter from '@/lib/middyAdapter'
 import httpResponse from '@/lib/utils/httpResponse'
-import { sendRawEmailPdfCommand } from '@/services/ses/sendRawEmailNodemailerCommand'
+import { sendRawEmailNodemailerCommand } from '@/services/ses/sendRawEmailNodemailerCommand'
 import { sendRawEmailNodemailerSchema } from '@/lib/schemas/sendRawEmailNodemailerSchema'
 
 const sendRawEmailNodemailer = async (event) => {
-  const { from, to, subject, text, url } = event.body
+  const { from, to, subject, textBody, url } = event.body
+  console.log('🚀 ~ sendRawEmailNodemailer ~  event.body:', event.body)
 
   try {
-    await sendRawEmailPdfCommand(from, to, subject, text)
+    await sendRawEmailNodemailerCommand(from, to, subject, textBody, url)
 
     logger.info('Email sent successfully')
     metrics.addMetric('SendRawEmailSuccess', MetricUnits.Count, 1)

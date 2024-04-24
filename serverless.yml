@@ -15,6 +15,7 @@ provider:
     ROKA_SECONDARY_INDEX_GSI1: GSI1
     ROKA_SECONDARY_INDEX_GSI2: GSI2
     ROKA_SECONDARY_INDEX_GSI3: GSI3
+    ROKA_BUCKET_NAME: ${self:app}-${self:provider.stage}
 
 
 
@@ -28,13 +29,16 @@ plugins:
   - serverless-plugin-custom-roles
   - serverless-offline
 
-resources:
-  - ${file(./config/resources/table.yml)}
-
-
 functions:
   - ${file(./config/lambdas/crud.yml)}
   - ${file(./config/lambdas/email.yml)}
+
+resources:
+  - ${file(./config/resources/table.yml)}
+  - ${file(./config/resources/bucket.yml)}
+
+
+
 
 
 

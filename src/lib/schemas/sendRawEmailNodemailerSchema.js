@@ -1,12 +1,14 @@
+import { format } from 'path'
+
 const sendRawEmailNodemailerSchema = {
   type: 'object',
   properties: {
     body: {
       type: 'object',
-      required: ['from', 'to', 'subject', 'text'],
+      required: ['from', 'to', 'subject'],
       additionalProperties: false,
       properties: {
-        from: { type: 'string' },
+        from: { type: 'string', format: 'email' },
         to: {
           type: 'array',
           items: {
@@ -15,7 +17,7 @@ const sendRawEmailNodemailerSchema = {
           }
         },
         subject: { type: 'string' },
-        text: { type: 'string' },
+        textBody: { type: 'string' },
         url: { type: 'string', format: 'url' }
       }
     }
