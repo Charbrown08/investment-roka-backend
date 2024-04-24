@@ -8316,8 +8316,8 @@ var require_uri_all = __commonJS({
             wsComponents.secure = void 0;
           }
           if (wsComponents.resourceName) {
-            var _wsComponents$resourc = wsComponents.resourceName.split("?"), _wsComponents$resourc2 = slicedToArray(_wsComponents$resourc, 2), path = _wsComponents$resourc2[0], query = _wsComponents$resourc2[1];
-            wsComponents.path = path && path !== "/" ? path : void 0;
+            var _wsComponents$resourc = wsComponents.resourceName.split("?"), _wsComponents$resourc2 = slicedToArray(_wsComponents$resourc, 2), path2 = _wsComponents$resourc2[0], query = _wsComponents$resourc2[1];
+            wsComponents.path = path2 && path2 !== "/" ? path2 : void 0;
             wsComponents.query = query;
             wsComponents.resourceName = void 0;
           }
@@ -13255,8 +13255,8 @@ var require_cookies = __commonJS({
         if (urlparts.hostname !== cookie.domain && (cookie.domain.charAt(0) !== "." || ("." + urlparts.hostname).substr(-cookie.domain.length) !== cookie.domain)) {
           return false;
         }
-        let path = this.getPath(urlparts.pathname);
-        if (path.substr(0, cookie.path.length) !== cookie.path) {
+        let path2 = this.getPath(urlparts.pathname);
+        if (path2.substr(0, cookie.path.length) !== cookie.path) {
           return false;
         }
         if (cookie.secure && urlparts.protocol !== "https:") {
@@ -13316,16 +13316,16 @@ var require_cookies = __commonJS({
        * @returns {String} Normalized path
        */
       getPath(pathname) {
-        let path = (pathname || "/").split("/");
-        path.pop();
-        path = path.join("/").trim();
-        if (path.charAt(0) !== "/") {
-          path = "/" + path;
+        let path2 = (pathname || "/").split("/");
+        path2.pop();
+        path2 = path2.join("/").trim();
+        if (path2.charAt(0) !== "/") {
+          path2 = "/" + path2;
         }
-        if (path.substr(-1) !== "/") {
-          path += "/";
+        if (path2.substr(-1) !== "/") {
+          path2 += "/";
         }
-        return path;
+        return path2;
       }
     };
     module2.exports = Cookies;
@@ -14139,7 +14139,7 @@ var require_shared = __commonJS({
 var require_mime_types = __commonJS({
   "node_modules/nodemailer/lib/mime-funcs/mime-types.js"(exports2, module2) {
     "use strict";
-    var path = require("path");
+    var path2 = require("path");
     var defaultMimeType = "application/octet-stream";
     var defaultExtension = "bin";
     var mimeTypes = /* @__PURE__ */ new Map([
@@ -16195,7 +16195,7 @@ var require_mime_types = __commonJS({
         if (!filename) {
           return defaultMimeType;
         }
-        let parsed = path.parse(filename);
+        let parsed = path2.parse(filename);
         let extension = (parsed.ext.substr(1) || parsed.name || "").split("?").shift().trim().toLowerCase();
         let value = defaultMimeType;
         if (extensions.has(extension)) {
@@ -19366,7 +19366,7 @@ var require_dkim = __commonJS({
     var sign = require_sign();
     var PassThrough = require("stream").PassThrough;
     var fs = require("fs");
-    var path = require("path");
+    var path2 = require("path");
     var crypto5 = require("crypto");
     var DKIM_ALGO = "sha256";
     var MAX_MESSAGE_SIZE = 128 * 1024;
@@ -19383,7 +19383,7 @@ var require_dkim = __commonJS({
         this.chunks = [];
         this.chunklen = 0;
         this.readPos = 0;
-        this.cachePath = this.cacheDir ? path.join(this.cacheDir, "message." + Date.now() + "-" + crypto5.randomBytes(14).toString("hex")) : false;
+        this.cachePath = this.cacheDir ? path2.join(this.cacheDir, "message." + Date.now() + "-" + crypto5.randomBytes(14).toString("hex")) : false;
         this.cache = false;
         this.headers = false;
         this.bodyHash = false;
@@ -24981,18 +24981,18 @@ var require_dist_cjs6 = __commonJS({
     __name2(_EndpointError, "EndpointError");
     var EndpointError2 = _EndpointError;
     var booleanEquals = /* @__PURE__ */ __name2((value1, value2) => value1 === value2, "booleanEquals");
-    var getAttrPathList = /* @__PURE__ */ __name2((path) => {
-      const parts = path.split(".");
+    var getAttrPathList = /* @__PURE__ */ __name2((path2) => {
+      const parts = path2.split(".");
       const pathList = [];
       for (const part of parts) {
         const squareBracketIndex = part.indexOf("[");
         if (squareBracketIndex !== -1) {
           if (part.indexOf("]") !== part.length - 1) {
-            throw new EndpointError2(`Path: '${path}' does not end with ']'`);
+            throw new EndpointError2(`Path: '${path2}' does not end with ']'`);
           }
           const arrayIndex = part.slice(squareBracketIndex + 1, -1);
           if (Number.isNaN(parseInt(arrayIndex))) {
-            throw new EndpointError2(`Invalid array index: '${arrayIndex}' in path: '${path}'`);
+            throw new EndpointError2(`Invalid array index: '${arrayIndex}' in path: '${path2}'`);
           }
           if (squareBracketIndex !== 0) {
             pathList.push(part.slice(0, squareBracketIndex));
@@ -25004,9 +25004,9 @@ var require_dist_cjs6 = __commonJS({
       }
       return pathList;
     }, "getAttrPathList");
-    var getAttr = /* @__PURE__ */ __name2((value, path) => getAttrPathList(path).reduce((acc, index) => {
+    var getAttr = /* @__PURE__ */ __name2((value, path2) => getAttrPathList(path2).reduce((acc, index) => {
       if (typeof acc !== "object") {
-        throw new EndpointError2(`Index '${index}' in '${path}' not found in '${JSON.stringify(value)}'`);
+        throw new EndpointError2(`Index '${index}' in '${path2}' not found in '${JSON.stringify(value)}'`);
       } else if (Array.isArray(acc)) {
         return acc[parseInt(index)];
       }
@@ -25026,8 +25026,8 @@ var require_dist_cjs6 = __commonJS({
             return value;
           }
           if (typeof value === "object" && "hostname" in value) {
-            const { hostname: hostname2, port, protocol: protocol2 = "", path = "", query = {} } = value;
-            const url = new URL(`${protocol2}//${hostname2}${port ? `:${port}` : ""}${path}`);
+            const { hostname: hostname2, port, protocol: protocol2 = "", path: path2 = "", query = {} } = value;
+            const url = new URL(`${protocol2}//${hostname2}${port ? `:${port}` : ""}${path2}`);
             url.search = Object.entries(query).map(([k, v]) => `${k}=${v}`).join("&");
             return url;
           }
@@ -26289,11 +26289,11 @@ var require_slurpFile = __commonJS({
     var fs_1 = require("fs");
     var { readFile } = fs_1.promises;
     var filePromisesHash = {};
-    var slurpFile = /* @__PURE__ */ __name((path, options) => {
-      if (!filePromisesHash[path] || (options === null || options === void 0 ? void 0 : options.ignoreCache)) {
-        filePromisesHash[path] = readFile(path, "utf8");
+    var slurpFile = /* @__PURE__ */ __name((path2, options) => {
+      if (!filePromisesHash[path2] || (options === null || options === void 0 ? void 0 : options.ignoreCache)) {
+        filePromisesHash[path2] = readFile(path2, "utf8");
       }
-      return filePromisesHash[path];
+      return filePromisesHash[path2];
     }, "slurpFile");
     exports2.slurpFile = slurpFile;
   }
@@ -26357,13 +26357,13 @@ var require_dist_cjs13 = __commonJS({
         ...data.default && { default: data.default }
       }
     ), "getConfigData");
-    var import_path = require("path");
+    var import_path2 = require("path");
     var import_getHomeDir = require_getHomeDir();
     var ENV_CONFIG_PATH = "AWS_CONFIG_FILE";
-    var getConfigFilepath = /* @__PURE__ */ __name2(() => process.env[ENV_CONFIG_PATH] || (0, import_path.join)((0, import_getHomeDir.getHomeDir)(), ".aws", "config"), "getConfigFilepath");
+    var getConfigFilepath = /* @__PURE__ */ __name2(() => process.env[ENV_CONFIG_PATH] || (0, import_path2.join)((0, import_getHomeDir.getHomeDir)(), ".aws", "config"), "getConfigFilepath");
     var import_getHomeDir2 = require_getHomeDir();
     var ENV_CREDENTIALS_PATH = "AWS_SHARED_CREDENTIALS_FILE";
-    var getCredentialsFilepath = /* @__PURE__ */ __name2(() => process.env[ENV_CREDENTIALS_PATH] || (0, import_path.join)((0, import_getHomeDir2.getHomeDir)(), ".aws", "credentials"), "getCredentialsFilepath");
+    var getCredentialsFilepath = /* @__PURE__ */ __name2(() => process.env[ENV_CREDENTIALS_PATH] || (0, import_path2.join)((0, import_getHomeDir2.getHomeDir)(), ".aws", "credentials"), "getCredentialsFilepath");
     var prefixKeyRegex = /^([\w-]+)\s(["'])?([\w-@\+\.%:/]+)\2$/;
     var profileNameBlockList = ["__proto__", "profile __proto__"];
     var parseIni = /* @__PURE__ */ __name2((iniData) => {
@@ -26855,8 +26855,8 @@ var require_dist_cjs18 = __commonJS({
               return endpoint.url.href;
             }
             if ("hostname" in endpoint) {
-              const { protocol, hostname, port, path } = endpoint;
-              return `${protocol}//${hostname}${port ? ":" + port : ""}${path}`;
+              const { protocol, hostname, port, path: path2 } = endpoint;
+              return `${protocol}//${hostname}${port ? ":" + port : ""}${path2}`;
             }
           }
           return endpoint;
@@ -28677,18 +28677,18 @@ var require_dist_cjs28 = __commonJS({
             const password = request.password ?? "";
             auth = `${username}:${password}`;
           }
-          let path = request.path;
+          let path2 = request.path;
           if (queryString) {
-            path += `?${queryString}`;
+            path2 += `?${queryString}`;
           }
           if (request.fragment) {
-            path += `#${request.fragment}`;
+            path2 += `#${request.fragment}`;
           }
           const nodeHttpsOptions = {
             headers: request.headers,
             host: request.hostname,
             method: request.method,
-            path,
+            path: path2,
             port: request.port,
             agent,
             auth
@@ -28959,16 +28959,16 @@ var require_dist_cjs28 = __commonJS({
             reject(err);
           }, "rejectWithDestroy");
           const queryString = (0, import_querystring_builder.buildQueryString)(query || {});
-          let path = request.path;
+          let path2 = request.path;
           if (queryString) {
-            path += `?${queryString}`;
+            path2 += `?${queryString}`;
           }
           if (request.fragment) {
-            path += `#${request.fragment}`;
+            path2 += `#${request.fragment}`;
           }
           const req = session.request({
             ...request.headers,
-            [import_http22.constants.HTTP2_HEADER_PATH]: path,
+            [import_http22.constants.HTTP2_HEADER_PATH]: path2,
             [import_http22.constants.HTTP2_HEADER_METHOD]: method
           });
           session.ref();
@@ -31150,8 +31150,8 @@ var require_dist_cjs32 = __commonJS({
        * Brevity incremental builder for "path".
        */
       p(memberName, labelValueProvider, uriLabel, isGreedyLabel) {
-        this.resolvePathStack.push((path) => {
-          this.path = (0, import_smithy_client.resolvedPath)(path, this.input, memberName, labelValueProvider, uriLabel, isGreedyLabel);
+        this.resolvePathStack.push((path2) => {
+          this.path = (0, import_smithy_client.resolvedPath)(path2, this.input, memberName, labelValueProvider, uriLabel, isGreedyLabel);
         });
         return this;
       }
@@ -31214,9 +31214,9 @@ var require_dist_cjs32 = __commonJS({
     }
     __name(createPaginator, "createPaginator");
     __name2(createPaginator, "createPaginator");
-    var get = /* @__PURE__ */ __name2((fromObject, path) => {
+    var get = /* @__PURE__ */ __name2((fromObject, path2) => {
       let cursor = fromObject;
-      const pathComponents = path.split(".");
+      const pathComponents = path2.split(".");
       for (const step of pathComponents) {
         if (!cursor || typeof cursor !== "object") {
           return void 0;
@@ -31890,10 +31890,10 @@ ${longDate}
 ${credentialScope}
 ${(0, import_util_hex_encoding.toHex)(hashedRequest)}`;
       }
-      getCanonicalPath({ path }) {
+      getCanonicalPath({ path: path2 }) {
         if (this.uriEscapePath) {
           const normalizedPathSegments = [];
-          for (const pathSegment of path.split("/")) {
+          for (const pathSegment of path2.split("/")) {
             if ((pathSegment == null ? void 0 : pathSegment.length) === 0)
               continue;
             if (pathSegment === ".")
@@ -31904,11 +31904,11 @@ ${(0, import_util_hex_encoding.toHex)(hashedRequest)}`;
               normalizedPathSegments.push(pathSegment);
             }
           }
-          const normalizedPath = `${(path == null ? void 0 : path.startsWith("/")) ? "/" : ""}${normalizedPathSegments.join("/")}${normalizedPathSegments.length > 0 && (path == null ? void 0 : path.endsWith("/")) ? "/" : ""}`;
+          const normalizedPath = `${(path2 == null ? void 0 : path2.startsWith("/")) ? "/" : ""}${normalizedPathSegments.join("/")}${normalizedPathSegments.length > 0 && (path2 == null ? void 0 : path2.endsWith("/")) ? "/" : ""}`;
           const doubleEncoded = (0, import_util_uri_escape.escapeUri)(normalizedPath);
           return doubleEncoded.replace(/%2F/g, "/");
         }
-        return path;
+        return path2;
       }
       async getSignature(longDate, credentialScope, keyPromise, canonicalRequest) {
         const stringToSign = await this.createStringToSign(longDate, credentialScope, canonicalRequest);
@@ -37031,7 +37031,7 @@ var require_credentialDefaultProvider = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.defaultProvider = void 0;
     exports2.defaultProvider = (input) => {
-      return () => Promise.resolve().then(() => __importStar2(require_dist_cjs53())).then(({ defaultProvider: defaultProvider2 }) => defaultProvider2(input)());
+      return () => Promise.resolve().then(() => __importStar2(require_dist_cjs53())).then(({ defaultProvider }) => defaultProvider(input)());
     };
   }
 });
@@ -38803,7 +38803,7 @@ var require_credentialDefaultProvider2 = __commonJS({
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.defaultProvider = void 0;
     exports2.defaultProvider = (input) => {
-      return () => Promise.resolve().then(() => __importStar2(require_dist_cjs53())).then(({ defaultProvider: defaultProvider2 }) => defaultProvider2(input)());
+      return () => Promise.resolve().then(() => __importStar2(require_dist_cjs53())).then(({ defaultProvider }) => defaultProvider(input)());
     };
   }
 });
@@ -40200,14 +40200,14 @@ var require_dist_cjs49 = __commonJS({
       cfId: output.headers["x-amz-cf-id"]
     }), "deserializeMetadata");
     var throwDefaultError = (0, import_smithy_client.withBaseException)(STSServiceException);
-    var buildHttpRpcRequest = /* @__PURE__ */ __name2(async (context, headers, path, resolvedHostname, body) => {
+    var buildHttpRpcRequest = /* @__PURE__ */ __name2(async (context, headers, path2, resolvedHostname, body) => {
       const { hostname, protocol = "https", port, path: basePath } = await context.endpoint();
       const contents = {
         protocol,
         hostname,
         port,
         method: "POST",
-        path: basePath.endsWith("/") ? basePath.slice(0, -1) + path : basePath + path,
+        path: basePath.endsWith("/") ? basePath.slice(0, -1) + path2 : basePath + path2,
         headers
       };
       if (resolvedHostname !== void 0) {
@@ -40983,7 +40983,7 @@ var require_dist_cjs53 = __commonJS({
     __export2(src_exports, {
       credentialsTreatedAsExpired: () => credentialsTreatedAsExpired,
       credentialsWillNeedRefresh: () => credentialsWillNeedRefresh,
-      defaultProvider: () => defaultProvider2
+      defaultProvider: () => defaultProvider
     });
     module2.exports = __toCommonJS2(src_exports);
     var import_shared_ini_file_loader = require_dist_cjs13();
@@ -41005,7 +41005,7 @@ var require_dist_cjs53 = __commonJS({
       (_b = init.logger) == null ? void 0 : _b.debug("@aws-sdk/credential-provider-node", "remoteProvider::fromInstanceMetadata");
       return fromInstanceMetadata(init);
     }, "remoteProvider");
-    var defaultProvider2 = /* @__PURE__ */ __name2((init = {}) => (0, import_property_provider.memoize)(
+    var defaultProvider = /* @__PURE__ */ __name2((init = {}) => (0, import_property_provider.memoize)(
       (0, import_property_provider.chain)(
         ...init.profile || process.env[import_shared_ini_file_loader.ENV_PROFILE] ? [] : [
           async () => {
@@ -47446,14 +47446,14 @@ var require_dist_cjs55 = __commonJS({
       cfId: output.headers["x-amz-cf-id"]
     }), "deserializeMetadata");
     var throwDefaultError = (0, import_smithy_client.withBaseException)(SESServiceException);
-    var buildHttpRpcRequest = /* @__PURE__ */ __name2(async (context, headers, path, resolvedHostname, body) => {
+    var buildHttpRpcRequest = /* @__PURE__ */ __name2(async (context, headers, path2, resolvedHostname, body) => {
       const { hostname, protocol = "https", port, path: basePath } = await context.endpoint();
       const contents = {
         protocol,
         hostname,
         port,
         method: "POST",
-        path: basePath.endsWith("/") ? basePath.slice(0, -1) + path : basePath + path,
+        path: basePath.endsWith("/") ? basePath.slice(0, -1) + path2 : basePath + path2,
         headers
       };
       if (resolvedHostname !== void 0) {
@@ -48854,14 +48854,14 @@ init_powertools();
 var import_middyAdapter = __toESM(require_middyAdapter());
 
 // src/lib/utils/httpResponse.js
-var serverError = /* @__PURE__ */ __name((path = "/") => ({
+var serverError = /* @__PURE__ */ __name((path2 = "/") => ({
   statusCode: 500,
   body: JSON.stringify({
     type: "urn:problem:server-error",
     title: "Server Error",
     detail: "An unexpected error has occurred, contact the administrator.",
     status: 500,
-    instance: path
+    instance: path2
   }),
   headers: {
     "Content-Type": "application/problem+json"
@@ -48886,92 +48886,92 @@ var success = /* @__PURE__ */ __name((body) => ({
     "Content-Type": "application/json"
   }
 }), "success");
-var badRequest = /* @__PURE__ */ __name((error) => (path = "/") => ({
+var badRequest = /* @__PURE__ */ __name((error) => (path2 = "/") => ({
   statusCode: 400,
   body: JSON.stringify({
     type: "urn:problem:bad-request",
     title: "Bad Request",
     detail: error.message,
     status: 400,
-    instance: path
+    instance: path2
   }),
   headers: {
     "Content-Type": "application/problem+json"
   }
 }), "badRequest");
-var notFound = /* @__PURE__ */ __name((error) => (path = "/") => ({
+var notFound = /* @__PURE__ */ __name((error) => (path2 = "/") => ({
   statusCode: 404,
   body: JSON.stringify({
     type: "urn:problem:not-found",
     title: "Not Found",
     detail: error.message,
     status: 404,
-    instance: path
+    instance: path2
   }),
   headers: {
     "Content-Type": "application/problem+json"
   }
 }), "notFound");
-var conflict = /* @__PURE__ */ __name((error) => (path = "/") => ({
+var conflict = /* @__PURE__ */ __name((error) => (path2 = "/") => ({
   statusCode: 409,
   body: JSON.stringify({
     type: "urn:problem:conflict",
     title: "Conflict",
     detail: error.message,
     status: 409,
-    instance: path
+    instance: path2
   }),
   headers: {
     "Content-Type": "application/problem+json"
   }
 }), "conflict");
-var tooManyRequest = /* @__PURE__ */ __name((error) => (path = "/") => ({
+var tooManyRequest = /* @__PURE__ */ __name((error) => (path2 = "/") => ({
   statusCode: 429,
   body: JSON.stringify({
     type: "urn:problem:too-many-requests",
     title: "Too Many Requests",
     detail: error.message,
     status: 429,
-    instance: path
+    instance: path2
   }),
   headers: {
     "Content-Type": "application/problem+json"
   }
 }), "tooManyRequest");
-var unauthorized = /* @__PURE__ */ __name((error) => (path = "/") => ({
+var unauthorized = /* @__PURE__ */ __name((error) => (path2 = "/") => ({
   statusCode: 401,
   body: JSON.stringify({
     type: "urn:problem:unauthorized",
     title: "Unauthorized",
     detail: error.message,
     status: 401,
-    instance: path
+    instance: path2
   }),
   headers: {
     "Content-Type": "application/problem+json"
   }
 }), "unauthorized");
-var generic = /* @__PURE__ */ __name((err, code) => (path = "/") => ({
+var generic = /* @__PURE__ */ __name((err, code) => (path2 = "/") => ({
   statusCode: code,
   body: JSON.stringify({
     type: `urn:problem:${err.replace(" ", "-").toLowerCase()}`,
     title: err,
     detail: err,
     status: code,
-    instance: path
+    instance: path2
   }),
   headers: {
     "Content-Type": "application/problem+json"
   }
 }), "generic");
-var unprocessable = /* @__PURE__ */ __name((error) => (path = "/") => ({
+var unprocessable = /* @__PURE__ */ __name((error) => (path2 = "/") => ({
   statusCode: 422,
   body: JSON.stringify({
     type: "urn:problem:unprocessable-entity",
     title: "Unprocessable Entity",
     detail: error.message,
     status: 422,
-    instance: path
+    instance: path2
   }),
   headers: {
     "Content-Type": "application/problem+json"
@@ -48991,53 +48991,33 @@ var httpResponse_default = {
 };
 
 // src/services/ses/sendRawEmailNodemailerCommand.js
+var import_path = __toESM(require("path"));
 var nodemailer = require_nodemailer();
 var aws = require_dist_cjs55();
-var { defaultProvider } = require_dist_cjs53();
 var ses = new aws.SES({
-  apiVersion: "2010-12-01",
   region: "eu-west-1"
-  // defaultProvider
 });
 var transporter = nodemailer.createTransport({
   SES: { ses, aws }
 });
 var sendRawEmailNodemailerCommand = /* @__PURE__ */ __name(async (from, to, subject, texBody, url) => {
-  console.log("\u{1F680} ~ sendRawEmailNodemailerCommand ~ url:", url);
-  console.log("\u{1F680} ~ sendRawEmailNodemailerCommand ~ texBody:", texBody);
-  console.log("\u{1F680} ~ sendRawEmailNodemailerCommand ~ subject:", subject);
-  console.log("\u{1F680} ~ sendRawEmailNodemailerCommand ~  to:", to);
-  console.log("\u{1F680} ~ sendRawEmailNodemailerCommand ~ from,:", from);
-  transporter.sendMail(
-    {
+  const fileName = import_path.default.basename(url);
+  try {
+    transporter.sendMail({
       from,
       to,
       subject,
       text: texBody,
       attachments: [
         {
-          filename: "test.txt",
-          content: url
-        },
-        {
-          filename: "test.pdf",
+          filename: fileName,
           href: url
         }
-      ],
-      ses: {
-        // optional extra arguments for SendRawEmail
-        Tags: [
-          {
-            Name: "tag_name",
-            Value: "tag_value"
-          }
-        ]
-      }
-    },
-    (err, info) => {
-      console.log(err);
-    }
-  );
+      ]
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }, "sendRawEmailNodemailerCommand");
 
 // src/lib/schemas/sendRawEmailNodemailerSchema.js
