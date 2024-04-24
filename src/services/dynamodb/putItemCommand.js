@@ -3,6 +3,7 @@ import { marshall } from '@aws-sdk/util-dynamodb'
 import configClient from '@/lib/utils/configClient'
 const client = new DynamoDBClient(configClient)
 import moment from 'moment'
+import { calculateInterestPaymentDate } from '@/lib/utils/dates/dateValidations'
 moment().format()
 
 const nameUserTable = process.env.ROKA_TABLE_NAME
@@ -26,9 +27,12 @@ const putItemCommand = async (
   loanDate,
   interestRate
 ) => {
+  // VALIDATIONS
   let decimalInterestRate = +(interestRate / 100).toFixed(2)
   let interestPerMount = +(decimalInterestRate * loanAmount).toFixed(2)
   let systemEntryDate = new Date().toLocaleDateString()
+
+  let paydayDate = await calculateInterestPaymentDate(loanDate)
 
   const input = {
     TableName: nameUserTable,
@@ -38,10 +42,10 @@ const putItemCommand = async (
         SK: `user#${id}`,
         GSI1PK: `user#${surname}`,
         GSI1SK: `user#${surname}`,
-        GSI2PK: `user#${lastName}`,
-        GSI2SK: `user#${lastName}`,
-        GSI3PK: `user#${payday}`,
-        GSI3SK: `user#${payday}`,
+        GSI2PK: `user#${companyName}`,
+        GSI2SK: `user#${companyName}`,
+        GSI3PK: `user#${profession}`,
+        GSI3SK: `user#${profession}`,
         id: id,
         name: name,
         surname: surname,
@@ -63,10 +67,10 @@ const putItemCommand = async (
         interest: interestPerMount,
         status: 'Active',
         systemEntryDate: systemEntryDate,
-        payday: '19/05/2024',
+        payday: paydayDate,
         amountWithInterest: '1100.000',
         daysOverdue: '3',
-        interestPaid: 'true/false'
+        interestPaid: 'false'
       },
       {
         removeUndefinedValues: true

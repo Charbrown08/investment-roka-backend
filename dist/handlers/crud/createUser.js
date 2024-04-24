@@ -40929,7 +40929,7 @@ var createUserSchema = {
         },
         guarantorPhone: {
           type: "string",
-          transform: ["trim", "toUpperCase"],
+          transform: ["trim"],
           minLength: 1,
           maxLength: 20
         },
@@ -40955,6 +40955,23 @@ var configClient_default = configClient;
 
 // src/services/dynamodb/putItemCommand.js
 var import_moment = __toESM(require_moment());
+
+// src/lib/utils/dates/dateValidations.js
+var moment = require_moment();
+var calculateInterestPaymentDate = /* @__PURE__ */ __name(async (loanDate) => {
+  const loanDateMoment = moment(loanDate, "DD/MM/YYYY");
+  const loanDay = loanDateMoment.date();
+  const halfMonth = Math.ceil(loanDateMoment.daysInMonth() / 2);
+  let payday;
+  if (loanDay > halfMonth) {
+    payday = loanDateMoment.add(1, "month").endOf("month").format("DD/MM/YYYY");
+  } else {
+    payday = moment(loanDateMoment).add(1, "month").date(halfMonth).format("DD/MM/YYYY");
+  }
+  return payday;
+}, "calculateInterestPaymentDate");
+
+// src/services/dynamodb/putItemCommand.js
 var client = new import_client_dynamodb.DynamoDBClient(configClient_default);
 (0, import_moment.default)().format();
 var nameUserTable = process.env.ROKA_TABLE_NAME;
@@ -40962,6 +40979,7 @@ var putItemCommand = /* @__PURE__ */ __name(async (id, name, surname, age, city,
   let decimalInterestRate = +(interestRate / 100).toFixed(2);
   let interestPerMount = +(decimalInterestRate * loanAmount).toFixed(2);
   let systemEntryDate = (/* @__PURE__ */ new Date()).toLocaleDateString();
+  let paydayDate = await calculateInterestPaymentDate(loanDate);
   const input = {
     TableName: nameUserTable,
     Item: (0, import_util_dynamodb.marshall)(
@@ -40970,10 +40988,10 @@ var putItemCommand = /* @__PURE__ */ __name(async (id, name, surname, age, city,
         SK: `user#${id}`,
         GSI1PK: `user#${surname}`,
         GSI1SK: `user#${surname}`,
-        GSI2PK: `user#${lastName}`,
-        GSI2SK: `user#${lastName}`,
-        GSI3PK: `user#${payday}`,
-        GSI3SK: `user#${payday}`,
+        GSI2PK: `user#${companyName}`,
+        GSI2SK: `user#${companyName}`,
+        GSI3PK: `user#${profession}`,
+        GSI3SK: `user#${profession}`,
         id,
         name,
         surname,
@@ -40995,10 +41013,10 @@ var putItemCommand = /* @__PURE__ */ __name(async (id, name, surname, age, city,
         interest: interestPerMount,
         status: "Active",
         systemEntryDate,
-        payday: "19/05/2024",
+        payday: paydayDate,
         amountWithInterest: "1100.000",
         daysOverdue: "3",
-        interestPaid: "true/false"
+        interestPaid: "false"
       },
       {
         removeUndefinedValues: true

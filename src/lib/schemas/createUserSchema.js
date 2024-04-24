@@ -66,7 +66,7 @@ const createUserSchema = {
         },
         guarantorPhone: {
           type: 'string',
-          transform: ['trim', 'toUpperCase'],
+          transform: ['trim'],
           minLength: 1,
           maxLength: 20
         },
