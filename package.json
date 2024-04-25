@@ -44,8 +44,10 @@
     "js-yaml": "^4.1.0",
     "prettier": "^2.7.1",
     "serverless": "^3.23.0",
+    "serverless-apigateway-service-proxy": "^2.2.1",
     "serverless-dotenv-plugin": "^6.0.0",
     "serverless-iam-roles-per-function": "^3.2.0",
+    "serverless-lift": "^1.28.1",
     "serverless-offline": "^11.6.0",
     "serverless-prune-plugin": "^2.0.1"
   },
@@ -55,9 +57,9 @@
     "build:offline": "npm run build -- offline",
     "debug:offline": "npm run build:offline && cross-env SLS_DEBUG=* node --inspect node_modules/serverless/bin/serverless offline -t",
     "dev": "npm run build:offline && sls offline",
-    "deploy": "npm run build:main && sls deploy --verbose --force",
-    "deployf": "npm run build:main && sls deploy function -f receptionEmail --verbose",
-    "deployf1": "npm run build:main && sls deploy function -f sendNotificationHook --verbose"
+    "deploy": "npm run build:main && sls deploy --verbose",
+    "deploy:function": "npm run build:main && sls deploy function -f"
+
   },
   "keywords": [
     "nodejs",

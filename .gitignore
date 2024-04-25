@@ -1,6 +1,6 @@
-# package directories
-node_modules
 jspm_packages
-
-# Serverless directories
+node_modules
 .serverless
+.DS_Store
+nodejs.zip
+package-lock.json

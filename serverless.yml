@@ -10,12 +10,42 @@ provider:
   logRetentionInDays: 7
   memorySize: 128
   architecture: arm64
+  apiGateway:
+    apiKeys:
+      - investment-roka-backend
   environment:
     ROKA_TABLE_NAME: table-${self:app}-${self:provider.stage}
     ROKA_SECONDARY_INDEX_GSI1: GSI1
     ROKA_SECONDARY_INDEX_GSI2: GSI2
     ROKA_SECONDARY_INDEX_GSI3: GSI3
     ROKA_BUCKET_NAME: ${self:app}-${self:provider.stage}
+    ROKA_QUEUE_NAME: ${self:app}-queue-${self:provider.stage}
+
+
+
+constructs:
+    sqs-queue:
+        type: queue
+        batchSize: 1
+        worker:
+            handler: src/handlers/sqs/queue.handler
+            iamRoleStatements:
+              - Effect: Allow
+                Action:
+                  - sqs:SendMessage
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                Resource:
+                  Fn::Sub: "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:${self:provider.environment.ROKA_QUEUE_NAME}"
+            package:
+                patterns:
+                  - dist/handlers/sqs/queue.js
+        extensions:
+          queue:
+            Properties:
+              QueueName: ${self:provider.environment.ROKA_QUEUE_NAME}
+
+
 
 
 
@@ -23,12 +53,27 @@ provider:
 custom:
   ApiUrl: ${self:provider.stage}/v1
   ServiceName: ${self:app}
+  apiGatewayServiceProxies:
+    - sqs:
+        path: ${self:custom.ServiceName}/queueLike
+        method: post
+        queueName: ${self:provider.environment.ROKA_QUEUE_NAME}
+        cors: true
+        response:
+          template:
+            success: |-
+              { "message": "accepted" }
+            clientError: |-
+              { "message": "there is an error in your request" }
+            serverError: |-
+              { "message": "there was an error handling your request" }
 
 plugins:
   - serverless-prune-plugin
   - serverless-plugin-custom-roles
   - serverless-offline
-
+  - serverless-apigateway-service-proxy
+  - serverless-lift
 functions:
   - ${file(./config/lambdas/crud.yml)}
   - ${file(./config/lambdas/email.yml)}
@@ -36,6 +81,7 @@ functions:
 resources:
   - ${file(./config/resources/table.yml)}
   - ${file(./config/resources/bucket.yml)}
+  - ${file(./config/resources/cognito.yml)}
 
 
 
@@ -48,4 +94,6 @@ package:
   individually: true
   patterns:
     - "!node_modules/**"
+    - "!*/**"
+    - "!**"
 

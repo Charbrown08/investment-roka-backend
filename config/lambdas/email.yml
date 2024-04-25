@@ -10,6 +10,7 @@ sendEmail:
 
   events:
     - http:
+        private: true
         path: ${self:custom.ServiceName}/email/sendEmail
         method: post
         cors: true
