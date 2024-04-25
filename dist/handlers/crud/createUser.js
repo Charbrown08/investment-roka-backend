@@ -424,7 +424,7 @@ var require_utils2 = __commonJS({
     "use strict";
     Object.defineProperty(exports2, "__esModule", { value: true });
     exports2.isSdkClient = void 0;
-    var isSdkClient = /* @__PURE__ */ __name((client2) => typeof client2 === "object" && client2 !== null && "send" in client2 && typeof client2.send === "function" && "config" in client2 && client2.config !== void 0 && typeof client2.config === "object" && client2.config !== null && "middlewareStack" in client2 && client2.middlewareStack !== void 0 && typeof client2.middlewareStack === "object" && client2.middlewareStack !== null && "identify" in client2.middlewareStack && typeof client2.middlewareStack.identify === "function" && "addRelativeTo" in client2.middlewareStack && typeof client2.middlewareStack.addRelativeTo === "function", "isSdkClient");
+    var isSdkClient = /* @__PURE__ */ __name((client3) => typeof client3 === "object" && client3 !== null && "send" in client3 && typeof client3.send === "function" && "config" in client3 && client3.config !== void 0 && typeof client3.config === "object" && client3.config !== null && "middlewareStack" in client3 && client3.middlewareStack !== void 0 && typeof client3.middlewareStack === "object" && client3.middlewareStack !== null && "identify" in client3.middlewareStack && typeof client3.middlewareStack.identify === "function" && "addRelativeTo" in client3.middlewareStack && typeof client3.middlewareStack.addRelativeTo === "function", "isSdkClient");
     exports2.isSdkClient = isSdkClient;
   }
 });
@@ -461,13 +461,13 @@ var require_userAgentMiddleware = __commonJS({
       }
       return found;
     }, "hasPowertools");
-    var addUserAgentMiddleware = /* @__PURE__ */ __name((client2, feature) => {
+    var addUserAgentMiddleware = /* @__PURE__ */ __name((client3, feature) => {
       try {
-        if ((0, utils_1.isSdkClient)(client2)) {
-          if (hasPowertools(client2.middlewareStack.identify())) {
+        if ((0, utils_1.isSdkClient)(client3)) {
+          if (hasPowertools(client3.middlewareStack.identify())) {
             return;
           }
-          client2.middlewareStack.addRelativeTo(customUserAgentMiddleware(feature), middlewareOptions);
+          client3.middlewareStack.addRelativeTo(customUserAgentMiddleware(feature), middlewareOptions);
         } else {
           throw new Error(`The client provided does not match the expected interface`);
         }
@@ -3758,13 +3758,13 @@ var require_util = __commonJS({
         ...awsClientDefaultOptions,
         ...options.awsClientOptions
       };
-      const client2 = new options.AwsClient(awsClientOptions);
+      const client3 = new options.AwsClient(awsClientOptions);
       if (options.awsClientCapture && options.disablePrefetch) {
-        return options.awsClientCapture(client2);
+        return options.awsClientCapture(client3);
       } else if (options.awsClientCapture) {
         console.warn("Unable to apply X-Ray outside of handler invocation scope.");
       }
-      return client2;
+      return client3;
     }, "createPrefetchClient");
     var createClient = /* @__PURE__ */ __name(async (options, request) => {
       let awsClientCredentials = {};
@@ -20773,8 +20773,8 @@ var require_dist_cjs34 = __commonJS({
     };
     __name2(_RequestBuilder, "RequestBuilder");
     var RequestBuilder = _RequestBuilder;
-    var makePagedClientRequest = /* @__PURE__ */ __name2(async (CommandCtor, client2, input, ...args) => {
-      return await client2.send(new CommandCtor(input), ...args);
+    var makePagedClientRequest = /* @__PURE__ */ __name2(async (CommandCtor, client3, input, ...args) => {
+      return await client3.send(new CommandCtor(input), ...args);
     }, "makePagedClientRequest");
     function createPaginator(ClientCtor, CommandCtor, inputTokenName, outputTokenName, pageSizeTokenName) {
       return /* @__PURE__ */ __name2(/* @__PURE__ */ __name(async function* paginateOperation(config, input, ...additionalArguments) {
@@ -30879,9 +30879,9 @@ var require_dist_cjs56 = __commonJS({
       return randomInRange(minDelay, delay);
     }, "exponentialBackoffWithJitter");
     var randomInRange = /* @__PURE__ */ __name2((min, max) => min + Math.random() * (max - min), "randomInRange");
-    var runPolling = /* @__PURE__ */ __name2(async ({ minDelay, maxDelay, maxWaitTime, abortController, client: client2, abortSignal }, input, acceptorChecks) => {
+    var runPolling = /* @__PURE__ */ __name2(async ({ minDelay, maxDelay, maxWaitTime, abortController, client: client3, abortSignal }, input, acceptorChecks) => {
       var _a;
-      const { state, reason } = await acceptorChecks(client2, input);
+      const { state, reason } = await acceptorChecks(client3, input);
       if (state !== "RETRY") {
         return { state, reason };
       }
@@ -30903,7 +30903,7 @@ var require_dist_cjs56 = __commonJS({
           };
         }
         await sleep(delay);
-        const { state: state2, reason: reason2 } = await acceptorChecks(client2, input);
+        const { state: state2, reason: reason2 } = await acceptorChecks(client3, input);
         if (state2 !== "RETRY") {
           return { state: state2, reason: reason2 };
         }
@@ -31021,7 +31021,7 @@ var require_dist_cjs57 = __commonJS({
       DisableKinesisStreamingDestinationCommand: () => DisableKinesisStreamingDestinationCommand,
       DuplicateItemException: () => DuplicateItemException,
       DynamoDB: () => DynamoDB,
-      DynamoDBClient: () => DynamoDBClient2,
+      DynamoDBClient: () => DynamoDBClient3,
       DynamoDBServiceException: () => DynamoDBServiceException,
       EnableKinesisStreamingDestinationCommand: () => EnableKinesisStreamingDestinationCommand,
       ExecuteStatementCommand: () => ExecuteStatementCommand,
@@ -31033,7 +31033,7 @@ var require_dist_cjs57 = __commonJS({
       ExportTableToPointInTimeCommand: () => ExportTableToPointInTimeCommand,
       ExportType: () => ExportType,
       ExportViewType: () => ExportViewType,
-      GetItemCommand: () => GetItemCommand,
+      GetItemCommand: () => GetItemCommand2,
       GetResourcePolicyCommand: () => GetResourcePolicyCommand,
       GlobalTableAlreadyExistsException: () => GlobalTableAlreadyExistsException,
       GlobalTableNotFoundException: () => GlobalTableNotFoundException,
@@ -35202,7 +35202,7 @@ var require_dist_cjs57 = __commonJS({
       }
     };
     __name2(_DynamoDBClient, "DynamoDBClient");
-    var DynamoDBClient2 = _DynamoDBClient;
+    var DynamoDBClient3 = _DynamoDBClient;
     var _BatchExecuteStatementCommand = class _BatchExecuteStatementCommand extends import_smithy_client.Command.classBuilder().ep({
       ...commonParams
     }).m(function(Command, cs, config, o) {
@@ -35594,7 +35594,7 @@ var require_dist_cjs57 = __commonJS({
       }
     };
     __name2(_GetItemCommand, "GetItemCommand");
-    var GetItemCommand = _GetItemCommand;
+    var GetItemCommand2 = _GetItemCommand;
     var _GetResourcePolicyCommand = class _GetResourcePolicyCommand extends import_smithy_client.Command.classBuilder().ep({
       ...commonParams
     }).m(function(Command, cs, config, o) {
@@ -36016,7 +36016,7 @@ var require_dist_cjs57 = __commonJS({
       ExecuteStatementCommand,
       ExecuteTransactionCommand,
       ExportTableToPointInTimeCommand,
-      GetItemCommand,
+      GetItemCommand: GetItemCommand2,
       GetResourcePolicyCommand,
       ImportTableCommand,
       ListBackupsCommand,
@@ -36046,7 +36046,7 @@ var require_dist_cjs57 = __commonJS({
       UpdateTableReplicaAutoScalingCommand,
       UpdateTimeToLiveCommand
     };
-    var _DynamoDB = class _DynamoDB extends DynamoDBClient2 {
+    var _DynamoDB = class _DynamoDB extends DynamoDBClient3 {
       static {
         __name(this, "_DynamoDB");
       }
@@ -36055,22 +36055,22 @@ var require_dist_cjs57 = __commonJS({
     var DynamoDB = _DynamoDB;
     (0, import_smithy_client.createAggregatedClient)(commands, DynamoDB);
     var import_core3 = require_dist_cjs34();
-    var paginateListContributorInsights = (0, import_core3.createPaginator)(DynamoDBClient2, ListContributorInsightsCommand, "NextToken", "NextToken", "MaxResults");
+    var paginateListContributorInsights = (0, import_core3.createPaginator)(DynamoDBClient3, ListContributorInsightsCommand, "NextToken", "NextToken", "MaxResults");
     var import_core4 = require_dist_cjs34();
-    var paginateListExports = (0, import_core4.createPaginator)(DynamoDBClient2, ListExportsCommand, "NextToken", "NextToken", "MaxResults");
+    var paginateListExports = (0, import_core4.createPaginator)(DynamoDBClient3, ListExportsCommand, "NextToken", "NextToken", "MaxResults");
     var import_core5 = require_dist_cjs34();
-    var paginateListImports = (0, import_core5.createPaginator)(DynamoDBClient2, ListImportsCommand, "NextToken", "NextToken", "PageSize");
+    var paginateListImports = (0, import_core5.createPaginator)(DynamoDBClient3, ListImportsCommand, "NextToken", "NextToken", "PageSize");
     var import_core6 = require_dist_cjs34();
-    var paginateListTables = (0, import_core6.createPaginator)(DynamoDBClient2, ListTablesCommand, "ExclusiveStartTableName", "LastEvaluatedTableName", "Limit");
+    var paginateListTables = (0, import_core6.createPaginator)(DynamoDBClient3, ListTablesCommand, "ExclusiveStartTableName", "LastEvaluatedTableName", "Limit");
     var import_core7 = require_dist_cjs34();
-    var paginateQuery = (0, import_core7.createPaginator)(DynamoDBClient2, QueryCommand, "ExclusiveStartKey", "LastEvaluatedKey", "Limit");
+    var paginateQuery = (0, import_core7.createPaginator)(DynamoDBClient3, QueryCommand, "ExclusiveStartKey", "LastEvaluatedKey", "Limit");
     var import_core8 = require_dist_cjs34();
-    var paginateScan = (0, import_core8.createPaginator)(DynamoDBClient2, ScanCommand, "ExclusiveStartKey", "LastEvaluatedKey", "Limit");
+    var paginateScan = (0, import_core8.createPaginator)(DynamoDBClient3, ScanCommand, "ExclusiveStartKey", "LastEvaluatedKey", "Limit");
     var import_util_waiter = require_dist_cjs56();
-    var checkState = /* @__PURE__ */ __name2(async (client2, input) => {
+    var checkState = /* @__PURE__ */ __name2(async (client3, input) => {
       let reason;
       try {
-        const result = await client2.send(new DescribeTableCommand(input));
+        const result = await client3.send(new DescribeTableCommand(input));
         reason = result;
         try {
           const returnComparator = /* @__PURE__ */ __name2(() => {
@@ -36098,10 +36098,10 @@ var require_dist_cjs57 = __commonJS({
       const result = await (0, import_util_waiter.createWaiter)({ ...serviceDefaults, ...params }, input, checkState);
       return (0, import_util_waiter.checkExceptions)(result);
     }, "waitUntilTableExists");
-    var checkState2 = /* @__PURE__ */ __name2(async (client2, input) => {
+    var checkState2 = /* @__PURE__ */ __name2(async (client3, input) => {
       let reason;
       try {
-        const result = await client2.send(new DescribeTableCommand(input));
+        const result = await client3.send(new DescribeTableCommand(input));
         reason = result;
       } catch (exception) {
         reason = exception;
@@ -36149,7 +36149,7 @@ var require_dist_cjs58 = __commonJS({
       NumberValueImpl: () => NumberValue,
       convertToAttr: () => convertToAttr,
       convertToNative: () => convertToNative,
-      marshall: () => marshall2,
+      marshall: () => marshall3,
       unmarshall: () => unmarshall
     });
     module2.exports = __toCommonJS2(src_exports);
@@ -36423,7 +36423,7 @@ var require_dist_cjs58 = __commonJS({
       (acc, [key, value]) => (acc[key] = convertToNative(value, options), acc),
       {}
     ), "convertMap");
-    function marshall2(data, options) {
+    function marshall3(data, options) {
       const attributeValue = convertToAttr(data, options);
       const [key, value] = Object.entries(attributeValue)[0];
       switch (key) {
@@ -36443,8 +36443,8 @@ var require_dist_cjs58 = __commonJS({
           return attributeValue;
       }
     }
-    __name(marshall2, "marshall");
-    __name2(marshall2, "marshall");
+    __name(marshall3, "marshall");
+    __name2(marshall3, "marshall");
     var unmarshall = /* @__PURE__ */ __name2((data, options) => {
       if (options == null ? void 0 : options.convertWithoutMapWrapper) {
         return convertToNative(data, options);
@@ -40936,7 +40936,9 @@ var createUserSchema = {
         guarantorAddress: { type: "string" },
         loanAmount: { type: "number" },
         loanDate: { type: "string" },
-        interestRate: { type: "number" }
+        interestRate: { type: "number" },
+        interestPaid: { type: "boolean", transform: ["trim"] },
+        status: { type: "boolean", transform: ["trim"] }
       }
     }
   }
@@ -40944,8 +40946,8 @@ var createUserSchema = {
 var createUserSchema_default = createUserSchema;
 
 // src/services/dynamodb/putItemCommand.js
-var import_client_dynamodb = __toESM(require_dist_cjs57());
-var import_util_dynamodb = __toESM(require_dist_cjs58());
+var import_client_dynamodb2 = __toESM(require_dist_cjs57());
+var import_util_dynamodb2 = __toESM(require_dist_cjs58());
 
 // src/lib/utils/configClient.js
 var configClient = {
@@ -40970,19 +40972,51 @@ var calculateInterestPaymentDate = /* @__PURE__ */ __name(async (loanDate) => {
   }
   return payday;
 }, "calculateInterestPaymentDate");
+var calculateOverdueDays = /* @__PURE__ */ __name(async (payday, interestPaid) => {
+  const paydayMoment = moment(payday, "DD/MM/YYYY");
+  const currentDate = moment();
+  if (!interestPaid && currentDate.isAfter(paydayMoment)) {
+    return currentDate.diff(paydayMoment, "days");
+  } else {
+    return 0;
+  }
+}, "calculateOverdueDays");
+
+// src/lib/utils/validations/userValidationTable.js
+var import_client_dynamodb = __toESM(require_dist_cjs57());
+var import_util_dynamodb = __toESM(require_dist_cjs58());
+var client = new import_client_dynamodb.DynamoDBClient(configClient_default);
+var nameUserTable = process.env.ROKA_TABLE_NAME;
+var validateUserId = /* @__PURE__ */ __name(async (id) => {
+  const userId = await client.send(
+    new import_client_dynamodb.GetItemCommand({
+      TableName: nameUserTable,
+      Key: (0, import_util_dynamodb.marshall)({
+        PK: `user#${id}`,
+        SK: `user#${id}`
+      })
+    })
+  );
+  return !!userId.Item;
+}, "validateUserId");
 
 // src/services/dynamodb/putItemCommand.js
-var client = new import_client_dynamodb.DynamoDBClient(configClient_default);
+var client2 = new import_client_dynamodb2.DynamoDBClient(configClient_default);
 (0, import_moment.default)().format();
-var nameUserTable = process.env.ROKA_TABLE_NAME;
-var putItemCommand = /* @__PURE__ */ __name(async (id, name, surname, age, city, email, profession, companyName, phoneNumbers, homeAddress, workAddress, guarantorName, guarantorPhone, guarantorAddress, loanAmount, loanDate, interestRate) => {
+var nameUserTable2 = process.env.ROKA_TABLE_NAME;
+var putItemCommand = /* @__PURE__ */ __name(async (id, name, surname, age, city, email, profession, companyName, phoneNumbers, homeAddress, workAddress, guarantorName, guarantorPhone, guarantorAddress, loanAmount, loanDate, interestRate, interestPaid = false, status = true) => {
+  if (await validateUserId(id)) {
+    httpResponse_default.conflict(`User with ID ${id} already exists in this table`);
+  }
   let decimalInterestRate = +(interestRate / 100).toFixed(2);
   let interestPerMount = +(decimalInterestRate * loanAmount).toFixed(2);
   let systemEntryDate = (/* @__PURE__ */ new Date()).toLocaleDateString();
+  let calculateAmountWithInterest = +(loanAmount + interestPerMount).toFixed(2);
   let paydayDate = await calculateInterestPaymentDate(loanDate);
+  let overdueDays = await calculateOverdueDays(paydayDate, interestPaid);
   const input = {
-    TableName: nameUserTable,
-    Item: (0, import_util_dynamodb.marshall)(
+    TableName: nameUserTable2,
+    Item: (0, import_util_dynamodb2.marshall)(
       {
         PK: `user#${id}`,
         SK: `user#${id}`,
@@ -41011,12 +41045,12 @@ var putItemCommand = /* @__PURE__ */ __name(async (id, name, surname, age, city,
         interestRate: decimalInterestRate,
         //  automatic
         interest: interestPerMount,
-        status: "Active",
+        status,
         systemEntryDate,
         payday: paydayDate,
-        amountWithInterest: "1100.000",
-        daysOverdue: "3",
-        interestPaid: "false"
+        amountWithInterest: calculateAmountWithInterest,
+        daysOverdue: overdueDays,
+        interestPaid
       },
       {
         removeUndefinedValues: true
@@ -41031,7 +41065,7 @@ var putItemCommand = /* @__PURE__ */ __name(async (id, name, surname, age, city,
   };
   console.log("\u{1F680} ~ input:", input);
   console.log("input: ->>>>", input);
-  return await client.send(new import_client_dynamodb.PutItemCommand(input));
+  return await client2.send(new import_client_dynamodb2.PutItemCommand(input));
 }, "putItemCommand");
 var putItemCommand_default = putItemCommand;
 
@@ -41054,7 +41088,9 @@ var createUser = /* @__PURE__ */ __name(async (event) => {
     guarantorAddress,
     loanAmount,
     loanDate,
-    interestRate
+    interestRate,
+    interestPaid,
+    status
   } = event.body;
   try {
     await putItemCommand_default(
@@ -41074,7 +41110,9 @@ var createUser = /* @__PURE__ */ __name(async (event) => {
       guarantorAddress,
       loanAmount,
       loanDate,
-      interestRate
+      interestRate,
+      interestPaid,
+      status
     );
     logger.info("Create User successfully");
     metrics.addMetric("CreateUserSuccess", import_metrics2.MetricUnits.Count, 1);

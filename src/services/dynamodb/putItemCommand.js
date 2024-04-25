@@ -3,7 +3,11 @@ import { marshall } from '@aws-sdk/util-dynamodb'
 import configClient from '@/lib/utils/configClient'
 const client = new DynamoDBClient(configClient)
 import moment from 'moment'
-import { calculateInterestPaymentDate } from '@/lib/utils/dates/dateValidations'
+import {
+  calculateInterestPaymentDate,
+  calculateOverdueDays
+} from '@/lib/utils/dates/dateValidations'
+import { validateUserId } from '@/lib/utils/validations/userValidationTable'
 moment().format()
 
 const nameUserTable = process.env.ROKA_TABLE_NAME
@@ -25,14 +29,20 @@ const putItemCommand = async (
   guarantorAddress,
   loanAmount,
   loanDate,
-  interestRate
+  interestRate,
+  interestPaid = false,
+  status = true
 ) => {
   // VALIDATIONS
+  if (await validateUserId(id)) throw new Error('User already exists')
+
   let decimalInterestRate = +(interestRate / 100).toFixed(2)
   let interestPerMount = +(decimalInterestRate * loanAmount).toFixed(2)
   let systemEntryDate = new Date().toLocaleDateString()
+  let calculateAmountWithInterest = +(loanAmount + interestPerMount).toFixed(2)
 
   let paydayDate = await calculateInterestPaymentDate(loanDate)
+  let overdueDays = await calculateOverdueDays(paydayDate, interestPaid)
 
   const input = {
     TableName: nameUserTable,
@@ -65,12 +75,12 @@ const putItemCommand = async (
         interestRate: decimalInterestRate,
         //  automatic
         interest: interestPerMount,
-        status: 'Active',
+        status: status,
         systemEntryDate: systemEntryDate,
         payday: paydayDate,
-        amountWithInterest: '1100.000',
-        daysOverdue: '3',
-        interestPaid: 'false'
+        amountWithInterest: calculateAmountWithInterest,
+        daysOverdue: overdueDays,
+        interestPaid: interestPaid
       },
       {
         removeUndefinedValues: true

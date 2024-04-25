@@ -73,7 +73,9 @@ const createUserSchema = {
         guarantorAddress: { type: 'string' },
         loanAmount: { type: 'number' },
         loanDate: { type: 'string' },
-        interestRate: { type: 'number' }
+        interestRate: { type: 'number' },
+        interestPaid: { type: 'boolean', transform: ['trim'] },
+        status: { type: 'boolean', transform: ['trim'] }
       }
     }
   }

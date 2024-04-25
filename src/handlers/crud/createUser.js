@@ -23,7 +23,9 @@ const createUser = async (event) => {
     guarantorAddress,
     loanAmount,
     loanDate,
-    interestRate
+    interestRate,
+    interestPaid,
+    status
   } = event.body
 
   try {
@@ -44,7 +46,9 @@ const createUser = async (event) => {
       guarantorAddress,
       loanAmount,
       loanDate,
-      interestRate
+      interestRate,
+      interestPaid,
+      status
     )
 
     logger.info('Create User successfully')

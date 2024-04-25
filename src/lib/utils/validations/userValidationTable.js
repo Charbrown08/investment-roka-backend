@@ -1,7 +1,6 @@
 import { GetItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { marshall } from '@aws-sdk/util-dynamodb'
 import clientConfig from '@/lib/utils/configClient'
-// import httpResponse from '@/lib/utils/httpResponse'
 
 const client = new DynamoDBClient(clientConfig)
 
@@ -12,13 +11,15 @@ const validateUserId = async (id) => {
     new GetItemCommand({
       TableName: nameUserTable,
       Key: marshall({
-        PK: `user#${id}`
+        PK: `user#${id}`,
+        SK: `user#${id}`
       })
     })
   )
 
-  return userId.Item
+  return !!userId.Item
 }
+
 const validateUserEmail = async (email) => {
   const userId = await client.send(
     new GetItemCommand({
