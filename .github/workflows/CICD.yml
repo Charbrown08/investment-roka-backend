@@ -1,0 +1,45 @@
+name: CI/CD en AWS
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [closed]
+
+jobs:
+  deploy:
+    name: Despliegue en AWS
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v2
+
+    - name: Instalar AWS CLI
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y awscli
+
+    - name: Autenticar con AWS
+      run: aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }} && aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }} && aws configure set region ${{ secrets.AWS_REGION }}
+
+    - name: Construir y desplegar
+      run: |
+        npm install
+        npm run deploy
+
+    # Enviar notificación a Google Chat al final del flujo de trabajo
+    - name: Enviar notificación a Google Chat
+      if: always()  # Notificar siempre, incluso si falla algún paso anterior
+      run: |
+        if [[ ${{ job.status }} == 'success' ]]; then
+          curl -X POST \
+            -H 'Content-Type: application/json' \
+            -d '{"text": "Despliegue en ambiente de desarrollo completado"}' \
+            https://chat.googleapis.com/v1/spaces/AAAAETbnE9o/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=HNZGuvSkzZr0HL4_jYVRp-K6minMoOA-UTU3wl83PT0
+        else
+          curl -X POST \
+            -H 'Content-Type: application/json' \
+            -d '{"text": "El despliegue en ambiente de desarrollo ha fallado"}' \
+            https://chat.googleapis.com/v1/spaces/AAAAETbnE9o/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=HNZGuvSkzZr0HL4_jYVRp-K6minMoOA-UTU3wl83PT0
+        fi
