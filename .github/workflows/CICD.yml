@@ -31,7 +31,7 @@ jobs:
     - name: Enviar notificación a Google Chat
       if: always()
       run: |
-        if [[ ${{ success }} == 'success' ]]; then
+        if [[ ${{ job.status }} == 'success' ]]; then
           curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
           -H "Content-Type: application/json" \
           -d "{\"text\": \"${{ github.repository }} - Se ha hecho un despliegue en el entorno de desarrollo con éxito. Ver resultado: ${{ github.run_id }}\"}"
