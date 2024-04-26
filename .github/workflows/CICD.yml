@@ -29,7 +29,7 @@ jobs:
         npm run deploy
 
     - name: Enviar notificación a Google Chat
-    if: always()
+      if: always()
       run: |
         if [[ ${{ success }} == 'success' ]]; then
           curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
