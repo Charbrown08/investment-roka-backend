@@ -1,0 +1,52 @@
+Resources:
+ cognitoUserPool:
+      Type: AWS::Cognito::UserPool
+      Properties:
+          UserPoolName: ${self:custom.ServiceName}-user-pool-${self:provider.stage}
+          UsernameAttributes:
+              - email
+          AutoVerifiedAttributes:
+              - email
+
+ cognitoUserPoolClient:
+      DependsOn:
+          - cognitoUserPool
+          - cognitoUserPoolDomain
+          - cognitoUserPoolResourceServer
+      Type: AWS::Cognito::UserPoolClient
+      Properties:
+          ClientName: ${self:custom.ServiceName}-user-pool-client-${self:provider.stage}
+          AllowedOAuthFlows:
+            - client_credentials
+          AllowedOAuthFlowsUserPoolClient: true
+          AllowedOAuthScopes:
+            - access/admin
+          UserPoolId:
+              Ref: cognitoUserPool
+          ExplicitAuthFlows:
+              - ALLOW_USER_SRP_AUTH
+              - ALLOW_REFRESH_TOKEN_AUTH
+          GenerateSecret: true
+          SupportedIdentityProviders:
+            - COGNITO
+
+ cognitoUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: ${self:custom.ServiceName}-user-pool-domain-${self:provider.stage}
+      UserPoolId:
+        Ref: cognitoUserPool
+
+ cognitoUserPoolResourceServer:
+    Type: AWS::Cognito::UserPoolResourceServer
+    Properties:
+      Identifier: access
+      Name: ${self:custom.ServiceName}-user-pool-resource-server-${self:provider.stage}
+      UserPoolId:
+        Ref: cognitoUserPool
+      Scopes:
+        - ScopeDescription: admin
+          ScopeName: admin
+
+
+
