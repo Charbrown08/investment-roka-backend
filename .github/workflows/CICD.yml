@@ -31,14 +31,7 @@ jobs:
     - name: Enviar notificación a Google Chat
       if: always()  # Notificar siempre, incluso si falla algún paso anterior
       run: |
-        if [[ ${{ job.status }} == 'success' ]]; then
-          curl -X POST \
-            -H 'Content-Type: application/json' \
-            -d '{"text": "Despliegue en ambiente de desarrollo completado"}' \
-            https://chat.googleapis.com/v1/spaces/AAAAETbnE9o/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=HNZGuvSkzZr0HL4_jYVRp-K6minMoOA-UTU3wl83PT0
-        else
-          curl -X POST \
-            -H 'Content-Type: application/json' \
-            -d '{"text": "El despliegue en ambiente de desarrollo ha fallado"}' \
-            https://chat.googleapis.com/v1/spaces/AAAAETbnE9o/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=HNZGuvSkzZr0HL4_jYVRp-K6minMoOA-UTU3wl83PT0
-        fi
+        if [[ ${{ job.status }} == 'success' ]]; then  then curl -X POST ${{ vars.GOOGLECHAT_URL }} -H ${{ vars.HEADERS }} -d "{\"text\":\ ${{ github.repository }} - Se ha hecho un despliegue en el entorno de desarrollo con exito.\nVer resultado ${{ github.action_path }}\"}" ; fi
+
+
+
