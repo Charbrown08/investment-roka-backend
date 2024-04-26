@@ -14,6 +14,13 @@ createUser:
         path: ${self:custom.ServiceName}/users/createUser
         method: post
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: apiGatewayAuthorizer
+          scopes:
+            - access/admin
+
   package:
     patterns:
       - dist/handlers/crud/createUser.js
@@ -34,6 +41,12 @@ getUser:
         path: ${self:custom.ServiceName}/users/getUser/{id}
         method: get
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: apiGatewayAuthorizer
+          scopes:
+            - access/admin
   package:
     patterns:
       - dist/handlers/crud/getUser.js
@@ -54,6 +67,12 @@ updateUser:
         path: ${self:custom.ServiceName}/users/updateUser
         method: put
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: apiGatewayAuthorizer
+          scopes:
+            - access/admin
   package:
     patterns:
       - dist/handlers/crud/updateUser.js
@@ -74,6 +93,12 @@ deleteUser:
         path: ${self:custom.ServiceName}/users/deleteUser/{id}
         method: delete
         cors: true
+        authorizer:
+          type: COGNITO_USER_POOLS
+          authorizerId:
+            Ref: apiGatewayAuthorizer
+          scopes:
+            - access/admin
   package:
     patterns:
       - dist/handlers/crud/deleteUser.js

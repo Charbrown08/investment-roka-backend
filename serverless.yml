@@ -20,6 +20,7 @@ provider:
     ROKA_SECONDARY_INDEX_GSI3: GSI3
     ROKA_BUCKET_NAME: ${self:app}-${self:provider.stage}
     ROKA_QUEUE_NAME: ${self:app}-queue-${self:provider.stage}
+    ROKA_APIKEY_SECRET: ${ssm:/SECRET_EGG}
 
 
 
@@ -28,18 +29,19 @@ constructs:
         type: queue
         batchSize: 1
         worker:
-            handler: src/handlers/sqs/queue.handler
+            handler: src/handlers/sqs/likeUser.handler
             iamRoleStatements:
               - Effect: Allow
                 Action:
                   - sqs:SendMessage
                   - sqs:ReceiveMessage
                   - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
                 Resource:
                   Fn::Sub: "arn:aws:sqs:${AWS::Region}:${AWS::AccountId}:${self:provider.environment.ROKA_QUEUE_NAME}"
             package:
                 patterns:
-                  - dist/handlers/sqs/queue.js
+                  - dist/handlers/sqs/likeUser.js
         extensions:
           queue:
             Properties:
@@ -82,6 +84,7 @@ resources:
   - ${file(./config/resources/table.yml)}
   - ${file(./config/resources/bucket.yml)}
   - ${file(./config/resources/cognito.yml)}
+  - ${file(./config/resources/apigateway.yml)}
 
 
 
