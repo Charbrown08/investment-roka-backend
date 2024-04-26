@@ -29,6 +29,12 @@ jobs:
         npm run deploy
 
     - name: Enviar notificación a Google Chat
-      if: always()  # Notificar siempre, incluso si falla algún paso anterior
+    if: always()
       run: |
-        if [[ ${{ job.status }} == 'success' ]]; then curl -X POST ${{ vars.GOOGLECHAT_URL }} -H "Content-Type: application/json" -d "{\"text\": \"$GITHUB_REPOSITORY - Se ha hecho un despliegue en el entorno de desarrollo con éxito.\nVer resultado $GITHUB_ACTION\"}" ; fi
+        if [[ ${{ success }} == 'success' ]]; then
+          curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
+          -H "Content-Type: application/json" \
+          -d "{\"text\": \"${{ github.repository }} - Se ha hecho un despliegue en el entorno de desarrollo con éxito. Ver resultado: ${{ github.run_id }}\"}"
+        fi
+
+
