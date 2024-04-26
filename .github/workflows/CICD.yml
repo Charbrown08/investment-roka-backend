@@ -28,7 +28,7 @@ jobs:
         npm install
         npm run deploy
 
-    # Enviar notificación a Google Chat al final del flujo de trabajo
+      # Enviar notificación a Google Chat al final del flujo de trabajo
     - name: Enviar notificación a Google Chat
       if: always()  # Notificar siempre, incluso si falla algún paso anterior
       run: |
@@ -43,3 +43,4 @@ jobs:
             -d '{"text": "El despliegue en ambiente de desarrollo ha fallado"}' \
             https://chat.googleapis.com/v1/spaces/AAAAETbnE9o/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=HNZGuvSkzZr0HL4_jYVRp-K6minMoOA-UTU3wl83PT0
         fi
+
