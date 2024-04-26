@@ -35,6 +35,11 @@ jobs:
           curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
           -H "Content-Type: application/json" \
           -d "{\"text\": \"${{ github.repository }} - Se ha hecho un despliegue en el entorno de desarrollo con éxito. Ver resultado: ${{ github.run_id }}\"}"
+        else
+          curl -X POST "${{ secrets.GOOGLECHAT_URL }}" \
+          -H "Content-Type: application/json" \
+          -d "{\"text\": \"${{ github.repository }} - Hubo un error al desplegar en el entorno de desarrollo. Ver resultado: ${{ github.run_id }}\"}"
         fi
+
 
 
