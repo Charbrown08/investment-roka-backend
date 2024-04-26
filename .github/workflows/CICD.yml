@@ -31,4 +31,4 @@ jobs:
     - name: Enviar notificación a Google Chat
       if: always()  # Notificar siempre, incluso si falla algún paso anterior
       run: |
-        if [[ ${{ job.status }} == 'success' ]]; then curl -X POST ${{ secrets.GOOGLECHAT_URL }} -H "Content-Type: application/json" -d "{\"text\": \"$GITHUB_REPOSITORY - Se ha hecho un despliegue en el entorno de desarrollo con éxito.\nVer resultado $GITHUB_ACTION\"}" ; fi
+        if [[ ${{ job.status }} == 'success' ]]; then curl -X POST ${{ vars.GOOGLECHAT_URL }} -H "Content-Type: application/json" -d "{\"text\": \"$GITHUB_REPOSITORY - Se ha hecho un despliegue en el entorno de desarrollo con éxito.\nVer resultado $GITHUB_ACTION\"}" ; fi
