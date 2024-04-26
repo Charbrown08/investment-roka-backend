@@ -1,10 +1,11 @@
-name: CI/CD en AWS
+name: pull request develop
 
 on:
   pull_request:
     branches:
-      - develop
+      - master
     types: [closed]
+
 
 jobs:
   deploy:
@@ -34,11 +35,11 @@ jobs:
         if [[ ${{ job.status }} == 'success' ]]; then
           curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
           -H "Content-Type: application/json" \
-          -d "{\"text\": \"${{ github.repository }} - Se ha hecho un despliegue en el entorno de desarrollo con éxito. Ver resultado: ${{ github.run_id }}\"}"
+          -d "{\"text\": \"${{ github.repository }} - Se ha hecho un despliegue en el entorno de produccion  con éxito. Ver resultado: ${{ github.run_id }}\"}"
         else
           curl -X POST "${{ secrets.GOOGLECHAT_URL }}" \
           -H "Content-Type: application/json" \
-          -d "{\"text\": \"${{ github.repository }} - Hubo un error al desplegar en el entorno de desarrollo. Ver resultado: ${{ github.run_id }}\"}"
+          -d "{\"text\": \"${{ github.repository }} - Hubo un error al desplegar en el entorno de produccion. Ver resultado: ${{ github.run_id }}\"}"
         fi
 
 
