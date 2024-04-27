@@ -1,0 +1,49 @@
+name: Branch Protection
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  branch-protection:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure branch protection
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            const branch = process.env.GITHUB_REF.replace('refs/heads/', '');
+            if (!branch.match(/^(feature|hotfix)\//)) {
+              await octokit.repos.updateBranchProtection({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                branch: branch,
+                required_status_checks: null,
+                enforce_admins: true,
+                required_pull_request_reviews: null,
+                restrictions: {
+                  users: [],
+                  teams: [],
+                  apps: [],
+                },
+              });
+              core.setOutput('branch_protected', 'true');
+              core.setOutput('branch_name', branch);
+            } else {
+              core.setOutput('branch_protected', 'false');
+            }
+
+      - name: Send notification if branch is not 'feature/' or 'hotfix/'
+        if: steps.branch-protection.outputs.branch_protected == 'true'
+        run: |
+          BRANCH=${{ steps.branch-protection.outputs.branch_name }}
+          curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
+          -H "Content-Type: application/json" \
+          -d "{\"text\": \"⚠️ Attention! A branch other than 'feature/' or 'hotfix/' was pushed: $BRANCH\"}"
