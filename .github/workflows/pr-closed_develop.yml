@@ -31,15 +31,17 @@ jobs:
 
     - name: Enviar notificación a Google Chat
       if: always()
+      env:
+        RUN_URL: "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
       run: |
         if [[ ${{ job.status }} == 'success' ]]; then
           curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
           -H "Content-Type: application/json" \
-          -d "{\"text\": \" Deployment has been successfully completed in the development environment. View results.: ${{ github.run_url }}\"}"
+          -d "{\"text\": \"🎉 Hooray! Deployment has been successfully completed in the development environment. You can view the exciting results [here]($RUN_URL)! 🚀 \"}"
         else
           curl -X POST "${{ secrets.GOOGLECHAT_URL }}" \
           -H "Content-Type: application/json" \
-          -d "{\"text\": \"  There was an error deploying to the development environment . Ver resultado: ${{ github.run_url }} \"}"
+          -d "{\"text\": \"😔 Oh no! There was an error deploying to the development environment. You can find more information and support [here]($RUN_URL). 💔\"}"
         fi
 
 
