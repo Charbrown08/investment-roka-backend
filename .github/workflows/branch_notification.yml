@@ -21,6 +21,6 @@ jobs:
         USER: ${{ github.actor }}
         REPO_URL: https://github.com/${{ github.repository }}/tree/${{ github.ref }}
       run: |
-        curl -X POST "${{ secrets.GOOGLECHAT_URL }}" \
+        curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
         -H "Content-Type: application/json" \
         -d "{\"text\": \"Branch: $BRANCH was pushed by $USER. Repository URL: $REPO_URL\"}"
