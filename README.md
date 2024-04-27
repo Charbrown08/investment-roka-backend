@@ -1,92 +1,95 @@
-<!--
-title: 'AWS Simple HTTP Endpoint example in NodeJS'
-description: 'This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.'
-layout: Doc
-framework: v3
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+Construcción de un Proyecto Personal con Serverless Framework en AWS
+En este proyecto personal, utilizaremos Serverless Framework para crear una aplicación serverless en AWS. La aplicación constará de un servicio de backend que permite a los usuarios almacenar y buscar datos en una base de datos DynamoDB, así como enviar notificaciones a través de un servicio de mensajería SNS.
 
-# Serverless Framework Node HTTP API on AWS
+Requisitos Previos
+Una cuenta de AWS con permisos para crear y gestionar los servicios mencionados.
+Node.js y npm instalados en tu máquina local.
+Serverless Framework instalado globalmente (npm install -g serverless).
+Paso 1: Configuración del Entorno
+Para empezar, necesitamos configurar nuestro entorno de desarrollo local y la configuración de AWS en Serverless Framework.
 
-This template demonstrates how to make a simple HTTP API with Node.js running on AWS Lambda and API Gateway using the Serverless Framework.
+bash
+Copy code
+# Instalar el plugin de AWS
+npm install serverless-aws-documentation --save-dev
+Luego, configuramos nuestras credenciales de AWS:
 
-This template does not include any kind of persistence (database). For more advanced examples, check out the [serverless/examples repository](https://github.com/serverless/examples/) which includes Typescript, Mongo, DynamoDB and other examples.
+bash
+Copy code
+serverless config credentials --provider aws --key <TU_ACCESS_KEY> --secret <TU_SECRET_KEY>
+Paso 2: Creación del Servicio
+Creamos un nuevo servicio de Serverless Framework:
 
-## Usage
+bash
+Copy code
+serverless create --template aws-nodejs --path my-service
+cd my-service
+Paso 3: Definición de Funciones y Servicios
+En el archivo serverless.yml, definimos nuestras funciones y los servicios que utilizaremos. Por ejemplo:
 
-### Deployment
+yaml
+Copy code
+service: my-service
 
-```
-$ serverless deploy
-```
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: us-east-1
 
-After deploying, you should see output similar to:
-
-```bash
-Deploying aws-node-http-api-project to stage dev (us-east-1)
-
-✔ Service deployed to stack aws-node-http-api-project-dev (152s)
-
-endpoint: GET - https://xxxxxxxxxx.execute-api.us-east-1.amazonaws.com/
 functions:
-  hello: aws-node-http-api-project-dev-hello (1.9 kB)
-```
+  createUser:
+    handler: src/handlers/createUser.handler
+    events:
+      - http:
+          path: users
+          method: post
+          cors: true
 
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/).
+plugins:
+  - serverless-aws-documentation
+Paso 4: Implementación de Funcionalidades
+Escribimos nuestras funciones en Node.js en la carpeta src/. Por ejemplo, para crear un usuario en DynamoDB:
 
-### Invocation
+javascript
+Copy code
+// src/handlers/createUser.js
 
-After successful deployment, you can call the created application via HTTP:
+const AWS = require('aws-sdk');
+const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/
-```
+module.exports.handler = async (event) => {
+  const { name, email } = JSON.parse(event.body);
 
-Which should result in response similar to the following (removed `input` content for brevity):
+  const params = {
+    TableName: 'Users',
+    Item: {
+      name,
+      email,
+    },
+  };
 
-```json
-{
-  "message": "Go Serverless v2.0! Your function executed successfully!",
-  "input": {
-    ...
+  try {
+    await dynamodb.put(params).promise();
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: 'Usuario creado correctamente' }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ message: 'Error al crear usuario' }),
+    };
   }
-}
-```
+};
+Paso 5: Implementación y Despliegue
+Desplegamos nuestra aplicación en AWS:
 
-### Local development
+bash
+Copy code
+serverless deploy
+Paso 6: Pruebas y Monitoreo
+Probamos nuestras funciones y servicios para asegurarnos de que funcionen correctamente. Podemos utilizar herramientas como AWS CloudWatch para monitorear el rendimiento de nuestra aplicación.
 
-You can invoke your function locally by using the following command:
+¡Y eso es todo! Ahora tienes un proyecto personal serverless desplegado en AWS utilizando Serverless Framework y varios servicios de AWS.
 
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-  "statusCode": 200,
-  "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
-
-
-Alternatively, it is also possible to emulate API Gateway and Lambda locally by using `serverless-offline` plugin. In order to do that, execute the following command:
-
-```bash
-serverless plugin install -n serverless-offline
-```
-
-It will add the `serverless-offline` plugin to `devDependencies` in `package.json` file as well as will add it to `plugins` in `serverless.yml`.
-
-After installation, you can start local emulation with:
-
-```
-serverless offline
-```
-
-To learn more about the capabilities of `serverless-offline`, please refer to its [GitHub repository](https://github.com/dherault/serverless-offline).
+Este documento Markdown proporciona una guía básica para la construcción de un proyecto personal con Serverless Framework en AWS. Puedes expandir y personalizar este proyecto añadiendo más funcionalidades y servicios según tus necesidades. ¡Diviértete construyendo!
