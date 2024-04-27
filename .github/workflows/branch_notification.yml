@@ -17,10 +17,10 @@ jobs:
 
     - name: Send notification to webhook
       env:
-        BRANCH: ${{ github.ref }}
+        BRANCH_NAME: ${{ steps.extract_branch.outputs.branch_name }}
         USER: ${{ github.actor }}
         REPO_URL: https://github.com/${{ github.repository }}/tree/${{ github.ref }}
       run: |
         curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
         -H "Content-Type: application/json" \
-        -d "{\"text\": \"Branch: $BRANCH was pushed by $USER. Repository URL: $REPO_URL\"}"
+        -d "{\"text\": \"Hola, hemos detectado que el usuario $USER ha agregado nuevos cambios a la rama $BRANCH_NAME. Revisala en el repositorio $REPO_URL\"}"
