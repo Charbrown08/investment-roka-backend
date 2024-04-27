@@ -17,7 +17,7 @@ jobs:
 
     - name: Send notification to webhook
       env:
-        BRANCH_NAME: ${{ steps.extract_branch.outputs.branch_name }}
+        BRANCH_NAME: ${{ github.ref }}
         USER: ${{ github.actor }}
         REPO_URL: https://github.com/${{ github.repository }}/tree/${{ github.ref }}
       run: |
