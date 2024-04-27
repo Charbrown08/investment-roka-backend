@@ -21,6 +21,7 @@ jobs:
         USER: ${{ github.actor }}
         REPO_URL: https://github.com/${{ github.repository }}/tree/${{ github.ref }}
       run: |
+        BRANCH_NAME=$(echo $BRANCH_NAME | sed 's/refs\/heads\///')
         curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
         -H "Content-Type: application/json" \
-        -d "{\"text\": \"Hola, hemos detectado que el usuario $USER ha agregado nuevos cambios a la rama $BRANCH_NAME. Revisala en el repositorio $REPO_URL\"}"
+        -d "{\"text\": \"Hello, we've detected that user $USER has added new changes to branch $BRANCH_NAME. Check it out in the repository $REPO_URL\"}"
