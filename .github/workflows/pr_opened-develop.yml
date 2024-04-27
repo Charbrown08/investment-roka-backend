@@ -1,0 +1,26 @@
+name: pull request notification
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [opened]
+
+jobs:
+  notify:
+    name: Notify on pull request opened
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send notification to webhook
+      env:
+        BRANCH_NAME: ${{ github.ref }}
+        USER: ${{ github.actor }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
+        PR_URL: ${{ github.event.pull_request.html_url }}
+      run: |
+        BRANCH_NAME=$(echo $BRANCH_NAME | sed 's/refs\/heads\///')
+        curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
+        -H "Content-Type: application/json" \
+        -d "{\"text\": \"Hello, we've detected that user $USER has opened new PR  from  $PR_TITLE. Check it out in the repository $PR_URL\"}"
+
