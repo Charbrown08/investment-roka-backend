@@ -1,0 +1,27 @@
+name: branch notification
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+      - 'hotfix/*'
+
+jobs:
+  notify:
+    name: Notify on branch push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Send notification to webhook
+      env:
+        BRANCH_NAME: ${{ github.ref }}
+        USER: ${{ github.actor }}
+        REPO_URL: https://github.com/${{ github.repository }}/tree/${{ github.ref }}
+      run: |
+        BRANCH_NAME=$(echo $BRANCH_NAME | sed 's/refs\/heads\///')
+        curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
+        -H "Content-Type: application/json" \
+        -d "{\"text\": \"Hello, we've detected that user $USER has added new changes to branch $BRANCH_NAME. Check it out in the repository $REPO_URL\"}"
