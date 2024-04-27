@@ -1,0 +1,26 @@
+name: branch notification
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+      - 'hotfix/*'
+
+jobs:
+  notify:
+    name: Notify on branch push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Send notification to webhook
+      env:
+        BRANCH: ${{ github.ref }}
+        USER: ${{ github.actor }}
+        REPO_URL: https://github.com/${{ github.repository }}/tree/${{ github.ref }}
+      run: |
+        curl -X POST "${{ secrets.GOOGLECHAT_URL }}" \
+        -H "Content-Type: application/json" \
+        -d "{\"text\": \"Branch: $BRANCH was pushed by $USER. Repository URL: $REPO_URL\"}"
