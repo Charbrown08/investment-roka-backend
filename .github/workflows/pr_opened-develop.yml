@@ -3,8 +3,7 @@ name: pull request notification
 on:
   pull_request:
     branches:
-      - 'feature/*'
-      - 'hotfix/*'
+      - develop
     types: [opened]
 
 jobs:

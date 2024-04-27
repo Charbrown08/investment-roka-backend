@@ -35,11 +35,11 @@ jobs:
         if [[ ${{ job.status }} == 'success' ]]; then
           curl -X POST "${{ vars.GOOGLECHAT_URL }}" \
           -H "Content-Type: application/json" \
-          -d "{\"text\": \"${{ github.repository }} - Se ha hecho un despliegue en el entorno de desarrollo con éxito,user  = "${{ github.actor }}". Ver resultado: ${{ github.run_id }}\"}"
+          -d "{\"text\": \" Deployment has been successfully completed in the development environment. View results.: ${{ github.run_url }}\"}"
         else
           curl -X POST "${{ secrets.GOOGLECHAT_URL }}" \
           -H "Content-Type: application/json" \
-          -d "{\"text\": \"${{ github.repository }} - Hubo un error al desplegar en el entorno de desarrollo , user = "${{ github.actor }}". Ver resultado: ${{ github.run_id }}\"}"
+          -d "{\"text\": \"  There was an error deploying to the development environment . Ver resultado: ${{ github.run_url }} \"}"
         fi
 
 
