@@ -1,0 +1,25 @@
+name: pull request develop
+
+on:
+  pull_request:
+    branches:
+      - develop
+    types: [opened]
+
+jobs:
+  deploy:
+    name: Deployment on AWS
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Send notification to Google Chat
+      if: always()
+      run: |
+        if [[ ${{ job.status }} == 'success' ]]; then
+          curl -X POST "${{ secrets.GOOGLECHAT_URL }}" \
+          -H "Content-Type: application/json" \
+          -d "{\"text\": \"Dear team members,\n\nWe would like to inform you that ${GITHUB_ACTOR} has requested approval for their pull request [PR] from the branch '${GITHUB_REF#refs/heads/}'.\n\nYou can review the pull request here: ${{ github.event.pull_request.html_url }}\n\nThank you for your attention.\n\nSincerely,\nThe Automation System\"}"
+        fi
