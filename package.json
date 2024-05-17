@@ -12,6 +12,7 @@
     "@aws-sdk/client-dynamodb": "^3.556.0",
     "@aws-sdk/client-s3": "^3.556.0",
     "@aws-sdk/client-ses": "^3.554.0",
+    "@aws-sdk/client-sqs": "^3.577.0",
     "@aws-sdk/client-ssm": "^3.554.0",
     "@aws-sdk/util-dynamodb": "^3.556.0",
     "@middy/core": "^3.6.2",
@@ -59,7 +60,6 @@
     "dev": "npm run build:offline && sls offline",
     "deploy": "npm run build:main && sls deploy --verbose",
     "deploy:function": "npm run build:main && sls deploy function -f"
-
   },
   "keywords": [
     "nodejs",

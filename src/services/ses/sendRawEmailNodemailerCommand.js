@@ -11,14 +11,19 @@ let transporter = nodemailer.createTransport({
   SES: { ses, aws }
 })
 
-const sendRawEmailNodemailerCommand = async (from, to, subject, texBody, url) => {
+const sendRawEmailNodemailerCommand = async (from, to, cc, bcc, subject, text, html, url) => {
   const fileName = path.basename(url)
+  console.log('🚀 ~ sendRawEmailNodemailerCommand ~ fileName:', fileName)
+
   try {
     transporter.sendMail({
-      from: from,
-      to: to,
-      subject: subject,
-      text: texBody,
+      from,
+      to,
+      cc,
+      bcc,
+      subject,
+      text,
+      html,
       attachments: [
         {
           filename: fileName,
@@ -27,7 +32,9 @@ const sendRawEmailNodemailerCommand = async (from, to, subject, texBody, url) =>
       ]
     })
   } catch (error) {
-    console.log(error)
+    console.log('🚀 ~ sendRawEmailNodemailerCommand ~ error:', error)
+
+    throw new Error(`Failed to send email: ${err.message}`)
   }
 }
 

@@ -1,0 +1,40 @@
+sender:
+  handler: dist/handlers/sqs/sender.handler
+  name:  ${self:custom.ServiceName}-sqs-sender
+  description: send message to QUEUE
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - sqs:SendMessage
+        - sqs:GetQueueUrl
+      Resource: 
+        - Fn::GetAtt: [ MyQueue, Arn ]       
+  events:
+    - http:
+        path: sqs/v1/sender
+        method: post  
+  package:
+    patterns:
+      - dist/handlers/sqs/sender.js
+    
+receiver:
+  handler: dist/handlers/sqs/receiver.handler
+  name:  ${self:custom.ServiceName}-sqs-receiver
+  description: receive message from QUEUE
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - sqs:ReceiveMessage
+        - sqs:GetQueueUrl
+        - sqs:GetQueueAttributes
+        - sqs:DeleteMessage
+      Resource: 
+        - Fn::GetAtt: [ MyQueue, Arn ] 
+  events:
+    - sqs:
+        arn:
+          Fn::GetAtt: [ MyQueue, Arn ]     
+  package:
+    patterns:
+      - dist/handlers/sqs/receiver.js
+  
