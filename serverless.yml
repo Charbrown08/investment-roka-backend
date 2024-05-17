@@ -21,6 +21,7 @@ provider:
     ROKA_BUCKET_NAME: ${self:app}-${self:provider.stage}
     ROKA_QUEUE_NAME: ${self:app}-queue-${self:provider.stage}
     ROKA_APIKEY_SECRET: ${ssm:/SECRET_EGG}
+    SQS_QUEUE_NAME: ${self:app}-queue-test-${self:provider.stage}
 
 
 
@@ -79,12 +80,14 @@ plugins:
 functions:
   - ${file(./config/lambdas/crud.yml)}
   - ${file(./config/lambdas/email.yml)}
+  - ${file(./config/lambdas/queue.yml)}
 
 resources:
   - ${file(./config/resources/table.yml)}
   - ${file(./config/resources/bucket.yml)}
   - ${file(./config/resources/cognito.yml)}
   - ${file(./config/resources/apigateway.yml)}
+  - ${file(./config/resources/sqs.yml)}
 
 
 

@@ -8,5 +8,5 @@
     }
   },
   "exclude": ["node_modules"],
-  "include": ["src/**/*", "__tests__/**/*", "config/**/*"]
+  "include": ["src/**/*", "__tests__/**/*", "config/**/*", "src/services/sqs/sendMessageCommand.js"]
 }
