@@ -1,6 +1,7 @@
-import { SESClient, SendRawEmailCommand } from '@aws-sdk/client-ses'
-import configClient from '@/lib/utils/configClient'
-const client = new SESClient(configClient)
+import { SESClient, SendRawEmailCommand } from '@aws-sdk/client-ses';
+import configClient from '@/lib/utils/configClient';
+
+const client = new SESClient(configClient);
 
 const sendRawEmailCommand = async (
   source = '',
@@ -9,21 +10,21 @@ const sendRawEmailCommand = async (
   fromArn = null,
   sourceArn = null,
   returnPath = null,
-  configSetname = null
+  configSetname = null,
 ) => {
   const input = {
     Source: source,
     Destinations: destinations,
     RawMessage: {
-      Data: rawData
+      Data: rawData,
     },
     FromArn: fromArn,
     SourceArn: sourceArn,
     ReturnPathArn: returnPath,
-    ConfigurationSetName: configSetname
-  }
+    ConfigurationSetName: configSetname,
+  };
 
-  return await client.send(new SendRawEmailCommand(input))
-}
+  return await client.send(new SendRawEmailCommand(input));
+};
 
-export { sendRawEmailCommand }
+export { sendRawEmailCommand };

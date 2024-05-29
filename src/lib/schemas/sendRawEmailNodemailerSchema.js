@@ -11,30 +11,30 @@ const sendRawEmailNodemailerSchema = {
           type: 'array',
           items: {
             type: 'string',
-            format: 'email'
-          }
+            format: 'email',
+          },
         },
         cc: {
           type: 'array',
           items: {
             type: 'string',
-            format: 'email'
-          }
+            format: 'email',
+          },
         },
         bcc: {
           type: 'array',
           items: {
             type: 'string',
-            format: 'email'
-          }
+            format: 'email',
+          },
         },
         subject: { type: 'string' },
         text: { type: 'string' },
         html: { type: 'string' },
-        url: { type: 'string', format: 'url' }
-      }
-    }
-  }
-}
+        url: { type: 'string', format: 'url' },
+      },
+    },
+  },
+};
 
-export { sendRawEmailNodemailerSchema }
+export { sendRawEmailNodemailerSchema };

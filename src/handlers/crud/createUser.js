@@ -1,9 +1,9 @@
-import { MetricUnits } from '@aws-lambda-powertools/metrics'
-import { logger, metrics } from '@/lib/utils/powertools'
-import middyAdapter from '@/lib/middyAdapter'
-import httpResponse from '@/lib/utils/httpResponse'
-import createUserSchema from '@/lib/schemas/createUserSchema'
-import putItemCommand from '@/services/dynamodb/putItemCommand'
+import { MetricUnits } from '@aws-lambda-powertools/metrics';
+import { logger, metrics } from '@/lib/utils/powertools';
+import middyAdapter from '@/lib/middyAdapter';
+import httpResponse from '@/lib/utils/httpResponse';
+import createUserSchema from '@/lib/schemas/createUserSchema';
+import putItemCommand from '@/services/dynamodb/putItemCommand';
 
 const createUser = async (event) => {
   const {
@@ -25,8 +25,8 @@ const createUser = async (event) => {
     loanDate,
     interestRate,
     interestPaid,
-    status
-  } = event.body
+    status,
+  } = event.body;
 
   try {
     await putItemCommand(
@@ -48,18 +48,18 @@ const createUser = async (event) => {
       loanDate,
       interestRate,
       interestPaid,
-      status
-    )
+      status,
+    );
 
-    logger.info('Create User successfully')
-    metrics.addMetric('CreateUserSuccess', MetricUnits.Count, 1)
-    return httpResponse.ok('user create with success')
+    logger.info('Create User successfully');
+    metrics.addMetric('CreateUserSuccess', MetricUnits.Count, 1);
+    return httpResponse.ok('user create with success');
   } catch (error) {
-    logger.error(error)
+    logger.error(error);
 
-    metrics.addMetric('CreateUserError', MetricUnits.Count, 1)
-    return httpResponse.error({ error: error })
+    metrics.addMetric('CreateUserError', MetricUnits.Count, 1);
+    return httpResponse.error({ error });
   }
-}
+};
 
-export const handler = middyAdapter.adapter(createUser, createUserSchema)
+export const handler = middyAdapter.adapter(createUser, createUserSchema);

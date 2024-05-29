@@ -10,3 +10,4 @@ __tests__/coverage
 **/*.md
 **/*.sh
 dist
+.eslintrc.js

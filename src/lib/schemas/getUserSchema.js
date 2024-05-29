@@ -11,10 +11,10 @@ const getUserSchema = {
           transform: ['trim', 'toUpperCase'],
           minLength: 1,
           maxLength: 35,
-          pattern: '^[a-zA-Z0-9-_]+$'
-        }
-      }
-    }
-  }
-}
-export default getUserSchema
+          pattern: '^[a-zA-Z0-9-_]+$',
+        },
+      },
+    },
+  },
+};
+export default getUserSchema;

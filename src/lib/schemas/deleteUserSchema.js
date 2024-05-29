@@ -11,10 +11,10 @@ const deleteUserSchema = {
           transform: ['trim'],
           minLength: 1,
           maxLength: 35,
-          pattern: '^[a-zA-Z0-9-_]+$'
-        }
-      }
-    }
-  }
-}
-export default deleteUserSchema
+          pattern: '^[a-zA-Z0-9-_]+$',
+        },
+      },
+    },
+  },
+};
+export default deleteUserSchema;

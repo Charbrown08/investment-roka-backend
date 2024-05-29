@@ -11,26 +11,26 @@ const sendRawEmailSesSchema = {
           type: 'array',
           items: {
             type: 'string',
-            format: 'email'
-          }
+            format: 'email',
+          },
         },
         rawData: { type: 'string' },
         fromArn: {
           type: 'string',
-          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+'
+          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+',
         },
         sourceArn: {
           type: 'string',
-          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+'
+          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+',
         },
         returnPathArn: {
           type: 'string',
-          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+'
+          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+',
         },
-        configSetname: { type: 'string' }
-      }
-    }
-  }
-}
+        configSetname: { type: 'string' },
+      },
+    },
+  },
+};
 
-export { sendRawEmailSesSchema }
+export { sendRawEmailSesSchema };

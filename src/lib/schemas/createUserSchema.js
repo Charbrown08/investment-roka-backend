@@ -17,7 +17,7 @@ const createUserSchema = {
         'guarantorAddress',
         'loanAmount',
         'loanDate',
-        'interestRate'
+        'interestRate',
       ],
       additionalProperties: false,
       properties: {
@@ -26,21 +26,21 @@ const createUserSchema = {
           transform: ['trim', 'toUpperCase'],
           minLength: 1,
           maxLength: 35,
-          pattern: '^[a-zA-Z0-9-_]+$'
+          pattern: '^[a-zA-Z0-9-_]+$',
         },
         name: {
           type: 'string',
           transform: ['trim', 'toUpperCase'],
           minLength: 1,
           maxLength: 50,
-          pattern: '^[a-zA-ZñÑ ]+$'
+          pattern: '^[a-zA-ZñÑ ]+$',
         },
         surname: {
           type: 'string',
           transform: ['trim', 'toUpperCase'],
           minLength: 1,
           maxLength: 50,
-          pattern: '^[a-zA-ZñÑ ]+$'
+          pattern: '^[a-zA-ZñÑ ]+$',
         },
         age: { type: 'number', minimum: 18, maximum: 99 },
         city: { type: 'string', transform: ['trim', 'toUpperCase'] },
@@ -50,11 +50,11 @@ const createUserSchema = {
           type: 'string',
           transform: ['trim', 'toUpperCase'],
           minLength: 1,
-          maxLength: 100
+          maxLength: 100,
         },
         phoneNumbers: {
           type: 'array',
-          items: { type: 'string' }
+          items: { type: 'string' },
         },
         homeAddress: { type: 'string' },
         workAddress: { type: 'string' },
@@ -62,23 +62,23 @@ const createUserSchema = {
           type: 'string',
           transform: ['trim', 'toUpperCase'],
           minLength: 1,
-          maxLength: 100
+          maxLength: 100,
         },
         guarantorPhone: {
           type: 'string',
           transform: ['trim'],
           minLength: 1,
-          maxLength: 20
+          maxLength: 20,
         },
         guarantorAddress: { type: 'string' },
         loanAmount: { type: 'number' },
         loanDate: { type: 'string' },
         interestRate: { type: 'number' },
         interestPaid: { type: 'boolean', transform: ['trim'] },
-        status: { type: 'boolean', transform: ['trim'] }
-      }
-    }
-  }
-}
+        status: { type: 'boolean', transform: ['trim'] },
+      },
+    },
+  },
+};
 
-export default createUserSchema
+export default createUserSchema;

@@ -1,9 +1,10 @@
-import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb'
-import { marshall } from '@aws-sdk/util-dynamodb'
-import configClient from '@/lib/utils/configClient'
-const client = new DynamoDBClient(configClient)
+import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { marshall } from '@aws-sdk/util-dynamodb';
+import configClient from '@/lib/utils/configClient';
 
-const nameUserTable = process.env.ROKA_TABLE_NAME
+const client = new DynamoDBClient(configClient);
+
+const nameUserTable = process.env.ROKA_TABLE_NAME;
 
 const updateItemCommand = async (
   id,
@@ -14,59 +15,59 @@ const updateItemCommand = async (
   address,
   city,
   profesion,
-  age
+  age,
 ) => {
   const input = {
     TableName: nameUserTable,
     Key: marshall({
       PK: `user#${id}`,
-      SK: `user#${id}`
+      SK: `user#${id}`,
     }),
     AttributeUpdates: marshall(
       {
         name: {
           Action: 'PUT',
-          Value: name
+          Value: name,
         },
         lastName: {
           Action: 'PUT',
-          Value: lastName
+          Value: lastName,
         },
         email: {
           Action: 'PUT',
-          Value: email
+          Value: email,
         },
         numbersPhone: {
           Action: 'PUT',
-          Value: numbersPhone
+          Value: numbersPhone,
         },
         address: {
           Action: 'PUT',
-          Value: address
+          Value: address,
         },
         city: {
           Action: 'PUT',
-          Value: city
+          Value: city,
         },
         profesion: {
           Action: 'PUT',
-          Value: profesion
+          Value: profesion,
         },
         age: {
           Action: 'PUT',
-          Value: age
-        }
+          Value: age,
+        },
       },
       {
-        removeUndefinedValues: true
+        removeUndefinedValues: true,
       },
       {
-        convertEmptyValues: true
-      }
+        convertEmptyValues: true,
+      },
     ),
-    ReturnValues: 'ALL_NEW'
-  }
-  return await client.send(new UpdateItemCommand(input))
-}
+    ReturnValues: 'ALL_NEW',
+  };
+  return await client.send(new UpdateItemCommand(input));
+};
 
-export default updateItemCommand
+export default updateItemCommand;

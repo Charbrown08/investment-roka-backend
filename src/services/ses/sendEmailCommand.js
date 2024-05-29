@@ -1,6 +1,7 @@
-import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
-import configClient from '@/lib/utils/configClient'
-const client = new SESClient(configClient)
+import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
+import configClient from '@/lib/utils/configClient';
+
+const client = new SESClient(configClient);
 
 const sendEmailCommand = async (
   source = '',
@@ -14,37 +15,36 @@ const sendEmailCommand = async (
   returnPath = null,
   sourceArn = null,
   returnPathArn = null,
-  configSetname = null
+  configSetname = null,
 ) => {
   //  [VALIDATIONS: type body Message ]
-  let bodyMessage =
-    bodyHtml === ''
-      ? {
-          Text: {
-            Data: bodyText,
-            Charset: 'UTF-8'
-          }
-        }
-      : {
-          Html: {
-            Data: bodyHtml,
-            Charset: 'UTF-8'
-          }
-        }
+  const bodyMessage = bodyHtml === ''
+    ? {
+      Text: {
+        Data: bodyText,
+        Charset: 'UTF-8',
+      },
+    }
+    : {
+      Html: {
+        Data: bodyHtml,
+        Charset: 'UTF-8',
+      },
+    };
 
   const input = {
     Source: source,
     Destination: {
       ToAddresses: toAddress,
       CcAddresses: ccAddress,
-      BccAddresses: bccAddress
+      BccAddresses: bccAddress,
     },
     Message: {
       Subject: {
         Data: dataSubject,
-        Charset: 'UTF-8'
+        Charset: 'UTF-8',
       },
-      Body: bodyMessage
+      Body: bodyMessage,
     },
     ReplyToAddresses: replyToaddress,
     ReturnPath: returnPath,
@@ -53,13 +53,13 @@ const sendEmailCommand = async (
     Tags: [
       {
         Name: 'messageType',
-        Value: 'Format'
-      }
+        Value: 'Format',
+      },
     ],
-    ConfigurationSetName: configSetname
-  }
+    ConfigurationSetName: configSetname,
+  };
 
-  return await client.send(new SendEmailCommand(input))
-}
+  return await client.send(new SendEmailCommand(input));
+};
 
-export { sendEmailCommand }
+export { sendEmailCommand };

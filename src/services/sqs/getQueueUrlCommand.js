@@ -1,13 +1,12 @@
-import { GetQueueUrlCommand, SQSClient } from '@aws-sdk/client-sqs'
-import configClient from '@/lib/utils/configClient'
-const client = new SQSClient(configClient)
+import { GetQueueUrlCommand, SQSClient } from '@aws-sdk/client-sqs';
+import configClient from '@/lib/utils/configClient';
 
-const getQueueUrlCommand = async (queueName) => {
-  return await client.send(
-    new GetQueueUrlCommand({
-      QueueName: queueName
-    })
-  )
-}
+const client = new SQSClient(configClient);
 
-export default getQueueUrlCommand
+const getQueueUrlCommand = async (queueName) => await client.send(
+  new GetQueueUrlCommand({
+    QueueName: queueName,
+  }),
+);
+
+export default getQueueUrlCommand;

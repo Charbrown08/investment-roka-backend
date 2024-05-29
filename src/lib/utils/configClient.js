@@ -1,5 +1,5 @@
 const configClient = {
-  region: 'eu-west-1'
-}
+  region: 'eu-west-1',
+};
 
-export default configClient
+export default configClient;

@@ -12,22 +12,22 @@ const sendEmailSesSchema = {
           type: 'array',
           items: {
             type: 'string',
-            format: 'email'
-          }
+            format: 'email',
+          },
         },
         ccAddress: {
           type: 'array',
           items: {
             type: 'string',
-            format: 'email'
-          }
+            format: 'email',
+          },
         },
         bccAddress: {
           type: 'array',
           items: {
             type: 'string',
-            format: 'email'
-          }
+            format: 'email',
+          },
         },
         dataSubject: { type: 'string' },
         bodyText: { type: 'string' },
@@ -36,23 +36,23 @@ const sendEmailSesSchema = {
           type: 'array',
           items: {
             type: 'string',
-            format: 'email'
-          }
+            format: 'email',
+          },
         },
         returnPath: { type: 'string', format: 'email' },
         sourceArn: {
           type: 'string',
-          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+'
+          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+',
         },
         returnPathArn: {
           type: 'string',
-          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+'
+          pattern: 'arn:aws:ses:[a-z0-9-]+:[0-9]{12}:identity/[a-zA-Z0-9._-]+',
         },
         tagValue: { type: 'string' },
-        configSetname: { type: 'string' }
-      }
-    }
-  }
-}
+        configSetname: { type: 'string' },
+      },
+    },
+  },
+};
 
-export { sendEmailSesSchema }
+export { sendEmailSesSchema };
